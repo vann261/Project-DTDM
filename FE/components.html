@@ -1,0 +1,130 @@
+<!-- ============================================================
+     EDUCONSULT – SHARED COMPONENTS
+     Cách dùng: Chỉ cần nhúng 1 dòng script vào cuối <body>:
+     <script src="components.js"></script>
+     ============================================================ -->
+
+<!-- ══ HEADER ══ -->
+<template id="tpl-header">
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a href="index.html" class="site-header__logo">
+        <div class="site-header__logo-icon">🎓</div>
+        <div class="site-header__logo-text">
+          EduConsult
+          <span>Hệ thống tư vấn học tập</span>
+        </div>
+      </a>
+
+      <nav class="site-header__nav" id="mainNav">
+        <a href="index.html"   data-page="index">Trang chủ</a>
+        <a href="#"            data-page="covấn">Cố vấn</a>
+        <a href="#"            data-page="lichhẹn">Lịch hẹn</a>
+        <a href="#"            data-page="vềchúngtôi">Về chúng tôi</a>
+      </nav>
+
+      <div class="site-header__right">
+        <div class="site-header__phone">
+          <strong>📞 1800 2345 2202</strong>
+          <small>Hỗ trợ tư vấn trực tuyến</small>
+        </div>
+        <a href="dangky.html" class="site-header__cta">Đăng ký miễn phí</a>
+        <button class="site-header__hamburger" id="hamburgerBtn" aria-label="Mở menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+</template>
+
+<!-- ══ FOOTER ══ -->
+<template id="tpl-footer">
+  <footer class="site-footer">
+    <div class="site-footer__main">
+      <div>
+        <a href="index.html" class="site-footer__brand-logo">
+          <div class="site-footer__brand-icon">🎓</div>
+          <span class="site-footer__brand-name">EduConsult</span>
+        </a>
+        <p class="site-footer__brand-desc">Nền tảng tư vấn học tập trực tuyến hàng đầu, kết nối sinh viên với cố vấn giàu kinh nghiệm trên nền tảng điện toán đám mây Azure — nhanh chóng, bảo mật và tiện lợi.</p>
+        <div class="site-footer__socials">
+          <a href="#" class="site-footer__social-btn">📘</a>
+          <a href="#" class="site-footer__social-btn">💬</a>
+          <a href="#" class="site-footer__social-btn">▶️</a>
+          <a href="#" class="site-footer__social-btn">✉️</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="site-footer__col-title">Dịch vụ</div>
+        <ul class="site-footer__links">
+          <li><a href="#">Đặt lịch tư vấn</a></li>
+          <li><a href="#">Tư vấn 1-1</a></li>
+          <li><a href="#">Tư vấn theo nhóm</a></li>
+          <li><a href="#">Lịch học &amp; tiến trình</a></li>
+          <li><a href="#">Workshop trực tuyến</a></li>
+          <li><a href="#">Tài nguyên học tập</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="site-footer__col-title">Hỗ trợ</div>
+        <ul class="site-footer__links">
+          <li><a href="#">Trung tâm trợ giúp</a></li>
+          <li><a href="#">Hướng dẫn sử dụng</a></li>
+          <li><a href="#">Câu hỏi thường gặp</a></li>
+          <li><a href="#">Báo lỗi hệ thống</a></li>
+          <li><a href="#">Phản hồi &amp; góp ý</a></li>
+          <li><a href="#">Liên hệ với chúng tôi</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="site-footer__col-title">Liên hệ</div>
+        <div class="site-footer__contact-item">
+          <span class="site-footer__contact-icon">📍</span>
+          <div class="site-footer__contact-text">
+            <strong>Địa chỉ</strong>
+            123 Đường Nguyễn Văn Linh, Quận 7, TP. Hồ Chí Minh
+          </div>
+        </div>
+        <div class="site-footer__contact-item">
+          <span class="site-footer__contact-icon">📞</span>
+          <div class="site-footer__contact-text">
+            <strong>Hotline hỗ trợ</strong>
+            1800 2345 2202 (Miễn phí · 8:00–22:00)
+          </div>
+        </div>
+        <div class="site-footer__contact-item">
+          <span class="site-footer__contact-icon">✉️</span>
+          <div class="site-footer__contact-text">
+            <strong>Email</strong>
+            hotro@educonsult.vn
+          </div>
+        </div>
+        <div class="site-footer__contact-item">
+          <span class="site-footer__contact-icon">⏰</span>
+          <div class="site-footer__contact-text">
+            <strong>Giờ làm việc</strong>
+            Thứ Hai – Thứ Sáu: 8:00 – 17:30
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="site-footer__bottom">
+      <p class="site-footer__copy">© 2025 <strong>EduConsult</strong>. Bảo lưu mọi quyền. Được vận hành trên nền tảng Microsoft Azure.</p>
+      <div class="site-footer__legal">
+        <a href="#">Điều khoản sử dụng</a>
+        <div class="site-footer__legal-sep"></div>
+        <a href="#">Chính sách bảo mật</a>
+        <div class="site-footer__legal-sep"></div>
+        <a href="#">Chính sách cookie</a>
+        <div class="site-footer__legal-sep"></div>
+        <a href="#">Quy chế hoạt động</a>
+        <div class="site-footer__legal-sep"></div>
+        <a href="#">Sơ đồ trang web</a>
+      </div>
+    </div>
+  </footer>
+</template>

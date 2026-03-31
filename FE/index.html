@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduConsult – Đặt Lịch Tư Vấn Học Tập</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+<style>
+/* ── MAIN CONTENT ────────────────────────────────────── */
+main { flex: 1; animation: fadeIn 0.5s ease forwards; }
+
+/* HERO */
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 380px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background: linear-gradient(130deg, #bfdbfe 0%, #93c5fd 40%, #60a5fa 75%, #3b82f6 100%);
+}
+
+.blob { position: absolute; border-radius: 50%; opacity: 0.4; filter: blur(55px); }
+.blob-1 { width:380px; height:380px; background:#93c5fd; top:-80px; right:80px; }
+.blob-2 { width:260px; height:260px; background:#dbeafe; top:60px; right:420px; }
+.blob-3 { width:220px; height:220px; background:#2563eb; bottom:10px; right:200px; }
+
+.hero-brand {
+  position: absolute; bottom: 28px; right: 48px;
+  font-size: clamp(38px, 5.5vw, 72px);
+  font-weight: 800;
+  color: #1e3a5f;           /* ← đổi từ white sang xanh navy đậm */
+  letter-spacing: -0.02em; line-height: 1.2; text-align: right;
+  text-shadow: 0 2px 12px rgba(255,255,255,0.7); /* ← thêm hào quang trắng */
+  z-index: 1;               /* ← nổi lên trên ảnh */
+}
+.hero-brand small {
+  display: block; font-size: 0.28em;
+  font-weight: 600; letter-spacing: 0.16em;
+  opacity: 1;               /* ← bỏ mờ */
+  color: #1e40af;           /* ← xanh navy vừa */
+  text-transform: uppercase; margin-top: 6px;
+  text-shadow: 0 1px 8px rgba(255,255,255,0.8);
+}
+
+/* CONTENT AREA */
+.content-area { padding: 24px 40px 36px; }
+
+/* GRID */
+.bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.card {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 24px 26px;
+  border: 1.5px solid var(--border);
+  transition: box-shadow 0.25s, transform 0.25s;
+}
+.card:hover {
+  box-shadow: 0 6px 28px rgba(59,130,246,0.12);
+  transform: translateY(-2px);
+}
+
+.section-tag {
+  font-size: 10.5px; font-weight: 700;
+  letter-spacing: 0.2em; color: var(--accent);
+  text-transform: uppercase; margin-bottom: 10px;
+}
+
+.card-intro h2 {
+  font-size: 20px; font-weight: 800;
+  line-height: 1.35; color: var(--accent-deep); margin-bottom: 12px;
+}
+.card-intro p {
+  font-size: 13px; font-weight: 300;
+  line-height: 1.75; color: var(--text-soft); margin-bottom: 16px;
+}
+
+.feature-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.feature-tag {
+  background: var(--bg-pale); color: var(--accent-deep);
+  font-size: 11px; font-weight: 600;
+  padding: 5px 12px; border-radius: 20px;
+  border: 1px solid var(--border-mid);
+}
+
+.card-cta { display: flex; flex-direction: column; justify-content: space-between; }
+.cta-title { font-size: 19px; font-weight: 800; color: var(--accent-deep); margin-bottom: 8px; line-height: 1.35; }
+.cta-sub { font-size: 13px; font-weight: 300; color: var(--text-soft); line-height: 1.65; margin-bottom: 22px; }
+.cta-buttons { display: flex; flex-direction: column; gap: 9px; }
+
+.btn {
+  font-family: inherit; font-size: 13.5px; font-weight: 600;
+  padding: 12px 18px; border-radius: 11px; border: none; cursor: pointer;
+  transition: all 0.22s; text-align: center; letter-spacing: 0.02em;
+  text-decoration: none; display: block;
+}
+.btn-primary { background: var(--accent); color: var(--white); box-shadow: 0 4px 16px rgba(59,130,246,0.3); }
+.btn-primary:hover { background: var(--accent-deep); transform: translateY(-2px); }
+.btn-outline { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
+.btn-outline:hover { background: var(--bg-pale); transform: translateY(-2px); }
+.btn-ghost { background: var(--bg-pale); color: var(--text-soft); border: 1.5px solid var(--border-mid); }
+.btn-ghost:hover { background: #dbeafe; color: var(--text-dark); }
+
+.card-news .news-heading { font-size: 19px; font-weight: 800; color: var(--accent-deep); margin-bottom: 14px; }
+.news-item { display: grid; grid-template-columns: 58px 1fr; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--border); }
+.news-item:last-child { border-bottom: none; }
+.news-thumb {
+  width: 58px; height: 52px; border-radius: 10px; background: var(--bg-pale);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0; border: 1.5px solid var(--border-mid);
+}
+.news-text strong { display: block; font-size: 12.5px; font-weight: 700; color: var(--text-dark); margin-bottom: 3px; line-height: 1.35; }
+.news-text span { font-size: 12px; font-weight: 300; color: var(--text-muted); line-height: 1.55; }
+
+.advisor-preview {
+  background: var(--white); border-radius: 16px;
+  padding: 20px 28px; border: 1.5px solid var(--border);
+  display: grid; grid-template-columns: auto 1fr auto;
+  align-items: center; gap: 28px;
+}
+.advisor-count { font-size: 32px; font-weight: 800; color: var(--accent); line-height: 1; }
+.advisor-count span { display: block; font-size: 11.5px; font-weight: 400; color: var(--text-muted); margin-top: 3px; }
+.advisor-preview h3 { font-size: 12px; font-weight: 700; letter-spacing: 0.14em; color: var(--accent); text-transform: uppercase; margin-bottom: 5px; }
+.advisor-preview p { font-size: 12.5px; font-weight: 300; color: var(--text-soft); line-height: 1.6; }
+.advisor-avatars { display: flex; }
+.avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 3px solid var(--white);
+  background: linear-gradient(135deg, #93c5fd, #3b82f6);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; margin-left: -10px;
+  box-shadow: 0 2px 8px rgba(59,130,246,0.2);
+}
+.avatar:first-child { margin-left: 0; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 1024px) {
+  .bottom-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+  .content-area { padding: 16px 16px 28px; }
+  .bottom-grid { grid-template-columns: 1fr; }
+  .advisor-preview { grid-template-columns: 1fr; text-align: center; }
+  .advisor-avatars { justify-content: center; }
+  .hero { min-height: 220px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ① Placeholder header – components.js sẽ tự điền vào -->
+<div id="site-header"></div>
+
+<!-- ══ MAIN ══ -->
+<main>
+  <div class="hero">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+<img src="anh.jpeg" 
+     style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;z-index:0;">
+    <div class="hero-brand">
+      EduConsult
+      <small>Hệ thống tư vấn học tập · Azure Cloud</small>
+    </div>
+  </div>
+
+  <div class="content-area">
+    <div class="bottom-grid">
+
+      <div class="card card-intro">
+        <div class="section-tag">✦ Giới thiệu hệ thống</div>
+        <h2>Hệ thống đặt lịch tư vấn học tập trực tuyến</h2>
+        <p>Nền tảng kết nối sinh viên với cố vấn học tập và giảng viên một cách nhanh chóng, tiện lợi trên điện toán đám mây Azure. Đặt lịch, tư vấn và theo dõi tiến trình — tất cả trên một giao diện duy nhất.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">☁️ Azure Cloud</span>
+          <span class="feature-tag">🔒 Bảo mật</span>
+          <span class="feature-tag">📅 Đặt lịch 24/7</span>
+          <span class="feature-tag">🎓 Học trực tuyến</span>
+          <span class="feature-tag">📊 Theo dõi tiến trình</span>
+        </div>
+      </div>
+
+      <div class="card card-cta">
+        <div>
+          <div class="section-tag">✦ Bắt đầu ngay</div>
+          <div class="cta-title">Đặt lịch tư vấn<br>trực tuyến ngay hôm nay</div>
+          <p class="cta-sub">Tạo tài khoản miễn phí và kết nối với cố vấn học tập phù hợp. Hệ thống hỗ trợ sinh viên tối ưu hóa lộ trình học tập của bạn.</p>
+        </div>
+        <div class="cta-buttons">
+          <a href="dangky.html" class="btn btn-primary">Đăng ký tài khoản</a>
+          <a href="dangnhap.html" class="btn btn-outline">Đăng nhập</a>
+          <a href="#" class="btn btn-ghost">Xem danh sách cố vấn</a>
+        </div>
+      </div>
+
+      <div class="card card-news">
+        <div class="news-heading">Tin tức</div>
+        <div class="news-item">
+          <div class="news-thumb">📅</div>
+          <div class="news-text">
+            <strong>Mở đăng ký tư vấn học kỳ mới</strong>
+            <span>Hệ thống mở đặt lịch học kỳ 2/2025. Sinh viên năm nhất ưu tiên đăng ký sớm.</span>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="news-thumb">🎓</div>
+          <div class="news-text">
+            <strong>Workshop hướng nghiệp trực tuyến</strong>
+            <span>Chương trình "Định hướng ngành học" ngày 15/10 với sự tham gia của các chuyên gia.</span>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="news-thumb">☁️</div>
+          <div class="news-text">
+            <strong>Nâng cấp nền tảng Azure</strong>
+            <span>Hệ thống vừa nâng cấp lên Azure Student Hub, đặt lịch nhanh hơn và ổn định hơn.</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="advisor-preview">
+      <div class="advisor-count">24+<span>Cố vấn &amp; Giảng viên</span></div>
+      <div>
+        <h3>Đội ngũ cố vấn học tập</h3>
+        <p>Kết nối với cố vấn học tập và giảng viên giàu kinh nghiệm từ nhiều chuyên ngành. Đặt lịch tư vấn 1-1 hoặc theo nhóm, linh hoạt mọi thời điểm.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px;">
+        <div class="advisor-avatars">
+          <div class="avatar">👩‍🏫</div>
+          <div class="avatar">👨‍💼</div>
+          <div class="avatar">👩‍💻</div>
+          <div class="avatar">👨‍🏫</div>
+        </div>
+        <a href="dangky.html" class="btn btn-primary" style="font-size:12.5px;padding:9px 20px;border-radius:10px;white-space:nowrap;">Xem tất cả cố vấn →</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ② Placeholder footer – components.js sẽ tự điền vào -->
+<div id="site-footer"></div>
+
+<!-- ③ Nhúng script – phải để CUỐI body -->
+<script src="components.js"></script>
+
+</body>
+</html>
