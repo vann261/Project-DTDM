@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đặt lịch tư vấn</title>
+
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: linear-gradient(180deg, #eef6ff, #f8fbff);
+    margin: 0;
+    color: #1e3a8a;
+}
+
+/* HERO */
+.hero {
+    background: linear-gradient(135deg, #3b82f6, #2563eb 55%, #1d4ed8);
+    color: white;
+    padding: 54px 10% 42px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before,
+.hero::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(45px);
+    opacity: 0.22;
+    pointer-events: none;
+}
+
+.hero::before {
+    width: 240px;
+    height: 240px;
+    background: #93c5fd;
+    top: -70px;
+    right: 110px;
+}
+
+.hero::after {
+    width: 200px;
+    height: 200px;
+    background: #dbeafe;
+    bottom: -60px;
+    left: 8%;
+}
+
+.hero-back {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #dbeafe;
+    text-decoration: none;
+    font-size: 14px;
+    margin-bottom: 14px;
+}
+
+.hero-back:hover {
+    color: white;
+}
+
+.hero h1 {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    font-size: clamp(30px, 4vw, 46px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+.hero p {
+    position: relative;
+    z-index: 1;
+    margin: 10px 0 0;
+    max-width: 760px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #e8f1ff;
+}
+
+/* WRAP */
+.page-wrap {
+    width: min(1100px, 82%);
+    margin: -26px auto 52px;
+    position: relative;
+    z-index: 2;
+}
+
+/* BOX */
+.box {
+    background: white;
+    padding: 30px;
+    border-radius: 28px;
+    box-shadow: 0 20px 45px rgba(37, 99, 235, 0.12);
+    border: 1px solid #e6f0ff;
+    animation: fadeUp 0.6s ease;
+}
+
+/* TITLE */
+.title {
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 16px;
+    color: #1e3a8a;
+}
+
+/* INFO */
+.info {
+    margin-bottom: 24px;
+    color: #475569;
+    line-height: 1.9;
+    font-size: 15px;
+    background: #f8fbff;
+    border: 1px solid #e8f0ff;
+    border-radius: 18px;
+    padding: 18px;
+}
+
+/* FORM */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group.full {
+    grid-column: 1 / -1;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: #1e3a8a;
+    font-size: 14px;
+}
+
+.required {
+    color: #ef4444;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 13px 14px;
+    border-radius: 14px;
+    border: 1px solid #cbd5e1;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    color: #1e3a8a;
+    background: #fcfdff;
+    outline: none;
+    transition: 0.25s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 4px rgba(59,130,246,0.10);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 130px;
+}
+
+.error-text {
+    margin-top: 6px;
+    font-size: 13px;
+    color: #ef4444;
+    display: none;
+}
+
+.form-note {
+    margin-top: 8px;
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+/* BUTTONS */
+.action-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    text-decoration: none;
+    border: none;
+    border-radius: 14px;
+    padding: 13px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-primary {
+    background: linear-gradient(90deg, #3b82f6, #2563eb);
+    color: white;
+    box-shadow: 0 8px 20px rgba(59,130,246,0.22);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(59,130,246,0.28);
+}
+
+.btn-outline {
+    background: white;
+    color: #2563eb;
+    border: 1.5px solid #3b82f6;
+}
+
+.btn-outline:hover {
+    background: #eff6ff;
+}
+
+/* SUCCESS MESSAGE */
+.success-box {
+    display: none;
+    margin-top: 20px;
+    background: #ecfdf5;
+    border: 1px solid #bbf7d0;
+    color: #166534;
+    border-radius: 16px;
+    padding: 16px 18px;
+    font-weight: 600;
+    line-height: 1.7;
+}
+
+/* ACTIVE NAV */
+.site-header__nav a[data-page="covan"] {
+    background: rgba(255,255,255,0.14);
+    border-radius: 12px;
+    padding: 8px 14px;
+}
+
+/* ANIMATION */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(28px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .hero {
+        padding: 42px 5% 34px;
+    }
+
+    .page-wrap {
+        width: 92%;
+    }
+
+    .box {
+        padding: 20px;
+        border-radius: 22px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .action-row {
+        flex-direction: column;
+    }
+
+    .action-row .btn,
+    .action-row a {
+        width: 100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="site-header"></div>
+
+<section class="hero">
+    <a href="schedule.html" class="hero-back" id="backToSchedule">← Quay lại lịch trống</a>
+    <h1>Xác nhận đặt lịch tư vấn</h1>
+    <p>Điền đầy đủ thông tin bắt buộc để gửi yêu cầu đặt lịch tư vấn. Sau khi xác nhận thành công, hệ thống sẽ đưa bạn về trang chủ.</p>
+</section>
+
+<div class="page-wrap">
+    <div class="box">
+        <div class="title">📌 Thông tin đặt lịch</div>
+
+        <div class="info">
+            👨‍🏫 Giảng viên: <b id="name"></b><br>
+            📅 Ngày hẹn: <b id="date"></b><br>
+            ⏰ Khung giờ: <b id="time"></b>
+        </div>
+
+        <form id="bookingForm" novalidate>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="fullName">Họ tên <span class="required">*</span></label>
+                    <input type="text" id="fullName" placeholder="Nhập họ tên">
+                    <div class="error-text" id="errorName">Vui lòng nhập họ tên.</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email <span class="required">*</span></label>
+                    <input type="email" id="email" placeholder="Nhập email">
+                    <div class="error-text" id="errorEmail">Vui lòng nhập email hợp lệ.</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Số điện thoại <span class="required">*</span></label>
+                    <input type="tel" id="phone" placeholder="Nhập số điện thoại">
+                    <div class="error-text" id="errorPhone">Vui lòng nhập số điện thoại hợp lệ.</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">Môn cần tư vấn <span class="required">*</span></label>
+                    <select id="subject">
+                        <option value="">Chọn môn</option>
+                        <option>IoT</option>
+                        <option>AI</option>
+                        <option>Web</option>
+                        <option>Data</option>
+                        <option>Cơ sở dữ liệu</option>
+                        <option>Bảo mật</option>
+                    </select>
+                    <div class="error-text" id="errorSubject">Vui lòng chọn môn cần tư vấn.</div>
+                </div>
+
+                <div class="form-group full">
+                    <label for="content">Nội dung tư vấn <span class="required">*</span></label>
+                    <textarea id="content" placeholder="Nhập nội dung cần tư vấn"></textarea>
+                    <div class="error-text" id="errorContent">Vui lòng nhập nội dung tư vấn.</div>
+                    <div class="form-note">Các mục có dấu <span class="required">*</span> là bắt buộc.</div>
+                </div>
+            </div>
+
+            <div class="action-row">
+                <a href="schedule.html" class="btn btn-outline" id="cancelBtn">Quay lại</a>
+                <button type="submit" class="btn btn-primary">Xác nhận đặt lịch</button>
+            </div>
+
+            <div class="success-box" id="successBox">
+                ✅ Đặt lịch thành công. Hệ thống đang chuyển bạn về trang chủ...
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="site-footer"></div>
+<script src="components.js"></script>
+
+<script>
+// DATA GIẢNG VIÊN
+const advisors = {
+    1: "TS. Nguyễn Văn An",
+    2: "ThS. Trần Thị Bình",
+    3: "TS. Lê Minh Cường",
+    4: "ThS. Phạm Thu Hà",
+    5: "TS. Hoàng Văn Dũng",
+    6: "ThS. Vũ Thị Lan"
+};
+
+// LẤY PARAM
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id") || "1";
+const time = params.get("time") || "";
+const date = params.get("date") || "";
+
+// HIỂN THỊ THÔNG TIN
+document.getElementById("name").innerText = advisors[id] || advisors[1];
+document.getElementById("time").innerText = decodeURIComponent(time) || "Chưa chọn";
+document.getElementById("date").innerText = decodeURIComponent(date) || "Chưa chọn";
+
+// LINK QUAY LẠI ĐÚNG CỐ VẤN
+const scheduleLink = `schedule.html?id=${encodeURIComponent(id)}`;
+document.getElementById("backToSchedule").href = scheduleLink;
+document.getElementById("cancelBtn").href = scheduleLink;
+
+// VALIDATION
+const form = document.getElementById("bookingForm");
+const successBox = document.getElementById("successBox");
+
+const fullName = document.getElementById("fullName");
+const email = document.getElementById("email");
+const phone = document.getElementById("phone");
+const subject = document.getElementById("subject");
+const content = document.getElementById("content");
+
+function showError(id, show) {
+    document.getElementById(id).style.display = show ? "block" : "none";
+}
+
+function isValidEmail(value) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+function isValidPhone(value) {
+    return /^[0-9+\s]{8,15}$/.test(value.trim());
+}
+
+form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    let valid = true;
+
+    const nameValue = fullName.value.trim();
+    const emailValue = email.value.trim();
+    const phoneValue = phone.value.trim();
+    const subjectValue = subject.value.trim();
+    const contentValue = content.value.trim();
+
+    if (!nameValue) {
+        showError("errorName", true);
+        valid = false;
+    } else {
+        showError("errorName", false);
+    }
+
+    if (!emailValue || !isValidEmail(emailValue)) {
+        showError("errorEmail", true);
+        valid = false;
+    } else {
+        showError("errorEmail", false);
+    }
+
+    if (!phoneValue || !isValidPhone(phoneValue)) {
+        showError("errorPhone", true);
+        valid = false;
+    } else {
+        showError("errorPhone", false);
+    }
+
+    if (!subjectValue) {
+        showError("errorSubject", true);
+        valid = false;
+    } else {
+        showError("errorSubject", false);
+    }
+
+    if (!contentValue) {
+        showError("errorContent", true);
+        valid = false;
+    } else {
+        showError("errorContent", false);
+    }
+
+    if (!valid) return;
+
+    successBox.style.display = "block";
+    form.querySelector('button[type="submit"]').disabled = true;
+
+    setTimeout(() => {
+        window.location.href = "index.html";
+    }, 1500);
+});
+</script>
+
+</body>
+</html>

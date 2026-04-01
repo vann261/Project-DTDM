@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Danh sách cố vấn</title>
+
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    margin: 0;
+    background: linear-gradient(180deg, #eef6ff 0%, #f8fbff 100%);
+    color: #1e3a8a;
+}
+
+/* HERO */
+.hero {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #3b82f6, #2563eb 55%, #1d4ed8);
+    color: white;
+    padding: 54px 10% 42px;
+    animation: fadeSlideDown 0.8s ease forwards;
+}
+
+.hero::before,
+.hero::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(42px);
+    opacity: 0.22;
+    pointer-events: none;
+}
+
+.hero::before {
+    width: 250px;
+    height: 250px;
+    background: #93c5fd;
+    top: -70px;
+    right: 110px;
+}
+
+.hero::after {
+    width: 220px;
+    height: 220px;
+    background: #dbeafe;
+    bottom: -60px;
+    left: 8%;
+}
+
+.hero a,
+.hero h1,
+.hero p {
+    position: relative;
+    z-index: 1;
+    animation: zoomFade 0.8s ease forwards;
+}
+
+.hero a {
+    color: #dbeafe;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.hero a:hover {
+    color: white;
+}
+
+.hero h1 {
+    margin: 10px 0 8px;
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+.hero p {
+    margin: 0;
+    color: #e8f1ff;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+/* SEARCH */
+.search {
+    width: min(1180px, 80%);
+    margin: -24px auto 24px;
+    background: rgba(255,255,255,0.97);
+    padding: 20px;
+    border-radius: 22px;
+    box-shadow: 0 16px 36px rgba(30, 58, 138, 0.10);
+    border: 1px solid #e7efff;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    animation: fadeSlideUp 0.8s ease forwards;
+    animation-delay: 0.15s;
+}
+
+.search input,
+.search select {
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 1.5px solid #dbe7ff;
+    background: #f8fbff;
+    color: #1e3a8a;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    transition: 0.25s ease;
+}
+
+.search input {
+    flex: 1;
+    min-width: 240px;
+}
+
+.search select {
+    min-width: 180px;
+}
+
+.search input:focus,
+.search select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 4px rgba(59,130,246,0.10);
+}
+
+.search button {
+    padding: 12px 18px;
+    border-radius: 14px;
+    border: 1px solid #dbeafe;
+    background: #eff6ff;
+    color: #2563eb;
+    font-family: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.search button:hover {
+    background: #dbeafe;
+}
+
+/* SECTION HEAD */
+.section-head {
+    width: min(1180px, 80%);
+    margin: 0 auto 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    opacity: 0;
+    animation: fadeSlideUp 0.8s ease forwards;
+    animation-delay: 0.25s;
+}
+
+.section-head h2 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 800;
+    color: #1e3a8a;
+}
+
+.section-head span {
+    color: #64748b;
+    font-size: 14px;
+}
+
+/* GRID */
+.grid {
+    width: min(1180px, 80%);
+    margin: 0 auto 48px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+/* CARD */
+.card {
+    background: white;
+    border-radius: 24px;
+    padding: 22px;
+    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.08);
+    border: 1px solid #e8f0ff;
+    transition: 0.28s ease;
+    display: flex;
+    flex-direction: column;
+    min-height: 280px;
+    opacity: 0;
+    animation: fadeSlideUp 0.75s ease forwards;
+}
+
+.card:nth-child(1) { animation-delay: 0.12s; }
+.card:nth-child(2) { animation-delay: 0.22s; }
+.card:nth-child(3) { animation-delay: 0.32s; }
+.card:nth-child(4) { animation-delay: 0.42s; }
+.card:nth-child(5) { animation-delay: 0.52s; }
+.card:nth-child(6) { animation-delay: 0.62s; }
+
+.card:hover {
+    transform: translateY(-8px) scale(1.01);
+    box-shadow: 0 18px 38px rgba(37, 99, 235, 0.15);
+}
+
+.avatar-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #1e3a8a;
+}
+
+.avatar-link img {
+    width: 58px;
+    height: 58px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #dbeafe;
+    transition: 0.25s ease;
+}
+
+.avatar-link:hover img {
+    transform: scale(1.06) rotate(2deg);
+    box-shadow: 0 8px 18px rgba(59,130,246,0.20);
+}
+
+.avatar-link b {
+    font-size: 18px;
+    line-height: 1.4;
+}
+
+.tag {
+    display: inline-block;
+    background: #eaf2ff;
+    color: #2563eb;
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    margin: 14px 0 10px;
+    align-self: flex-start;
+}
+
+.desc {
+    color: #475569;
+    font-size: 14px;
+    line-height: 1.7;
+    margin: 0 0 16px;
+    min-height: 48px;
+}
+
+.info {
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 18px;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    margin-top: auto;
+}
+
+.actions a {
+    flex: 1;
+    text-decoration: none;
+}
+
+.btn {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: none;
+    font-family: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(90deg, #3b82f6, #2563eb);
+    color: white;
+    box-shadow: 0 8px 18px rgba(59,130,246,0.22);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(59,130,246,0.28);
+}
+
+.btn-outline {
+    background: white;
+    color: #2563eb;
+    border: 1.5px solid #3b82f6;
+}
+
+.btn-outline:hover {
+    background: #eff6ff;
+}
+
+/* EMPTY */
+.empty-state {
+    width: min(1180px, 80%);
+    margin: 0 auto 48px;
+    background: white;
+    border: 1px solid #e8f0ff;
+    border-radius: 24px;
+    padding: 26px;
+    color: #64748b;
+    display: none;
+    text-align: center;
+    animation: fadeSlideUp 0.5s ease forwards;
+}
+
+/* ACTIVE NAV */
+.site-header__nav a[data-page="covan"] {
+    background: rgba(255,255,255,0.14);
+    border-radius: 12px;
+    padding: 8px 14px;
+}
+
+/* ANIMATION */
+@keyframes fadeSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(28px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes zoomFade {
+    from {
+        opacity: 0;
+        transform: scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .hero {
+        padding: 42px 5% 34px;
+    }
+
+    .search,
+    .section-head,
+    .grid,
+    .empty-state {
+        width: 92%;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+
+    .actions a {
+        width: 100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="site-header"></div>
+
+<div class="hero">
+    <a href="index.html">← Quay lại trang chủ</a>
+    <h1>Danh sách cố vấn</h1>
+    <p>Tìm cố vấn phù hợp theo chuyên môn để xem hồ sơ chi tiết và đặt lịch tư vấn nhanh.</p>
+</div>
+
+<div class="search">
+    <input type="text" id="searchInput" placeholder="Tìm theo tên cố vấn hoặc chuyên môn...">
+    <select id="filterSelect">
+        <option value="">Tất cả chuyên môn</option>
+        <option value="IoT">IoT</option>
+        <option value="Database">Database</option>
+        <option value="AI">AI</option>
+        <option value="Web">Web</option>
+        <option value="Bảo mật">Bảo mật</option>
+        <option value="Data">Data</option>
+    </select>
+    <button type="button" id="resetBtn">Đặt lại</button>
+</div>
+
+<div class="section-head">
+    <h2>💙 Danh sách cố vấn</h2>
+    <span id="countText">6 cố vấn</span>
+</div>
+
+<div class="grid" id="advisorGrid">
+
+    <div class="card" data-name="nguyễn văn an" data-tag="iot">
+        <a href="advisor-profile.html?id=1" class="avatar-link">
+            <img src="https://i.pravatar.cc/60?img=1" alt="Nguyễn Văn An">
+            <b>Nguyễn Văn An</b>
+        </a>
+        <div class="tag">IoT</div>
+        <p class="desc">Chuyên hệ thống nhúng, IoT và các bài toán tự động hóa ứng dụng.</p>
+        <div class="info">⭐ 4.9 · 👥 156 sinh viên</div>
+        <div class="actions">
+            <a href="advisor-profile.html?id=1"><button class="btn btn-outline">Xem hồ sơ</button></a>
+            <a href="schedule.html?id=1"><button class="btn btn-primary">Xem lịch</button></a>
+        </div>
+    </div>
+
+    <div class="card" data-name="trần thị bình" data-tag="database">
+        <a href="advisor-profile.html?id=2" class="avatar-link">
+            <img src="https://i.pravatar.cc/60?img=2" alt="Trần Thị Bình">
+            <b>Trần Thị Bình</b>
+        </a>
+        <div class="tag">Database</div>
+        <p class="desc">Chuyên SQL, NoSQL, mô hình hóa dữ liệu và thiết kế hệ quản trị dữ liệu.</p>
+        <div class="info">⭐ 4.8 · 👥 203 sinh viên</div>
+        <div class="actions">
+            <a href="advisor-profile.html?id=2"><button class="btn btn-outline">Xem hồ sơ</button></a>
+            <a href="schedule.html?id=2"><button class="btn btn-primary">Xem lịch</button></a>
+        </div>
+    </div>
+
+    <div class="card" data-name="lê minh cường" data-tag="ai">
+        <a href="advisor-profile.html?id=3" class="avatar-link">
+            <img src="https://i.pravatar.cc/60?img=3" alt="Lê Minh Cường">
+            <b>Lê Minh Cường</b>
+        </a>
+        <div class="tag">AI</div>
+        <p class="desc">Tư vấn Machine Learning, Deep Learning và các đề tài AI ứng dụng.</p>
+        <div class="info">⭐ 4.9 · 👥 189 sinh viên</div>
+        <div class="actions">
+            <a href="advisor-profile.html?id=3"><button class="btn btn-outline">Xem hồ sơ</button></a>
+            <a href="schedule.html?id=3"><button class="btn btn-primary">Xem lịch</button></a>
+        </div>
+    </div>
+
+    <div class="card" data-name="phạm thu hà" data-tag="web">
+        <a href="advisor-profile.html?id=4" class="avatar-link">
+            <img src="https://i.pravatar.cc/60?img=4" alt="Phạm Thu Hà">
+            <b>Phạm Thu Hà</b>
+        </a>
+        <div class="tag">Web</div>
+        <p class="desc">Chuyên React, NodeJS, PHP và xây dựng giao diện web thực tế.</p>
+        <div class="info">⭐ 4.7 · 👥 142 sinh viên</div>
+        <div class="actions">
+            <a href="advisor-profile.html?id=4"><button class="btn btn-outline">Xem hồ sơ</button></a>
+            <a href="schedule.html?id=4"><button class="btn btn-primary">Xem lịch</button></a>
+        </div>
+    </div>
+
+    <div class="card" data-name="hoàng văn dũng" data-tag="bảo mật">
+        <a href="advisor-profile.html?id=5" class="avatar-link">
+            <img src="https://i.pravatar.cc/60?img=5" alt="Hoàng Văn Dũng">
+            <b>Hoàng Văn Dũng</b>
+        </a>
+        <div class="tag">Bảo mật</div>
+        <p class="desc">Chuyên ethical hacking, an ninh mạng và bảo mật hệ thống web.</p>
+        <div class="info">⭐ 4.8 · 👥 178 sinh viên</div>
+        <div class="actions">
+            <a href="advisor-profile.html?id=5"><button class="btn btn-outline">Xem hồ sơ</button></a>
+            <a href="schedule.html?id=5"><button class="btn btn-primary">Xem lịch</button></a>
+        </div>
+    </div>
+
+    <div class="card" data-name="vũ thị lan" data-tag="data">
+        <a href="advisor-profile.html?id=6" class="avatar-link">
+            <img src="https://i.pravatar.cc/60?img=6" alt="Vũ Thị Lan">
+            <b>Vũ Thị Lan</b>
+        </a>
+        <div class="tag">Data</div>
+        <p class="desc">Chuyên Python, Data Science, phân tích và trực quan hóa dữ liệu.</p>
+        <div class="info">⭐ 4.9 · 👥 134 sinh viên</div>
+        <div class="actions">
+            <a href="advisor-profile.html?id=6"><button class="btn btn-outline">Xem hồ sơ</button></a>
+            <a href="schedule.html?id=6"><button class="btn btn-primary">Xem lịch</button></a>
+        </div>
+    </div>
+
+</div>
+
+<div class="empty-state" id="emptyState">
+    Không tìm thấy cố vấn phù hợp với từ khóa hoặc bộ lọc đã chọn.
+</div>
+
+<div id="site-footer"></div>
+<script src="components.js"></script>
+
+<script>
+const searchInput = document.getElementById("searchInput");
+const filterSelect = document.getElementById("filterSelect");
+const resetBtn = document.getElementById("resetBtn");
+const cards = document.querySelectorAll(".card");
+const countText = document.getElementById("countText");
+const emptyState = document.getElementById("emptyState");
+const advisorGrid = document.getElementById("advisorGrid");
+
+function normalizeText(text) {
+    return text
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+}
+
+function filterCards() {
+    const keyword = normalizeText(searchInput.value.trim());
+    const selectedTag = normalizeText(filterSelect.value.trim());
+
+    let visibleCount = 0;
+
+    cards.forEach(card => {
+        const name = normalizeText(card.dataset.name);
+        const tag = normalizeText(card.dataset.tag);
+
+        const matchKeyword = !keyword || name.includes(keyword) || tag.includes(keyword);
+        const matchTag = !selectedTag || tag === selectedTag;
+
+        if (matchKeyword && matchTag) {
+            card.style.display = "flex";
+            visibleCount++;
+        } else {
+            card.style.display = "none";
+        }
+    });
+
+    countText.textContent = `${visibleCount} cố vấn`;
+    emptyState.style.display = visibleCount === 0 ? "block" : "none";
+    advisorGrid.style.display = visibleCount === 0 ? "none" : "grid";
+}
+
+searchInput.addEventListener("input", filterCards);
+filterSelect.addEventListener("change", filterCards);
+
+resetBtn.addEventListener("click", () => {
+    searchInput.value = "";
+    filterSelect.value = "";
+    filterCards();
+});
+
+filterCards();
+</script>
+
+</body>
+</html>" sửa đi  հիմա scroll nó như vậy mỗi lần chuyển trang là nó không như đang nhấn tab covan nữa

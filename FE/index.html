@@ -32,16 +32,16 @@ main { flex: 1; animation: fadeIn 0.5s ease forwards; }
   position: absolute; bottom: 28px; right: 48px;
   font-size: clamp(38px, 5.5vw, 72px);
   font-weight: 800;
-  color: #1e3a5f;           /* ← đổi từ white sang xanh navy đậm */
+  color: #1e3a5f;
   letter-spacing: -0.02em; line-height: 1.2; text-align: right;
-  text-shadow: 0 2px 12px rgba(255,255,255,0.7); /* ← thêm hào quang trắng */
-  z-index: 1;               /* ← nổi lên trên ảnh */
+  text-shadow: 0 2px 12px rgba(255,255,255,0.7);
+  z-index: 1;
 }
 .hero-brand small {
   display: block; font-size: 0.28em;
   font-weight: 600; letter-spacing: 0.16em;
-  opacity: 1;               /* ← bỏ mờ */
-  color: #1e40af;           /* ← xanh navy vừa */
+  opacity: 1;
+  color: #1e40af;
   text-transform: uppercase; margin-top: 6px;
   text-shadow: 0 1px 8px rgba(255,255,255,0.8);
 }
@@ -161,17 +161,15 @@ main { flex: 1; animation: fadeIn 0.5s ease forwards; }
 </head>
 <body>
 
-<!-- ① Placeholder header – components.js sẽ tự điền vào -->
 <div id="site-header"></div>
 
-<!-- ══ MAIN ══ -->
 <main>
   <div class="hero">
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
     <div class="blob blob-3"></div>
-<img src="anh.jpeg" 
-     style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;z-index:0;">
+    <img src="anh.jpeg"
+         style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;z-index:0;">
     <div class="hero-brand">
       EduConsult
       <small>Hệ thống tư vấn học tập · Azure Cloud</small>
@@ -203,7 +201,7 @@ main { flex: 1; animation: fadeIn 0.5s ease forwards; }
         <div class="cta-buttons">
           <a href="dangky.html" class="btn btn-primary">Đăng ký tài khoản</a>
           <a href="dangnhap.html" class="btn btn-outline">Đăng nhập</a>
-          <a href="#" class="btn btn-ghost">Xem danh sách cố vấn</a>
+          <a href="covan.html" class="btn btn-ghost">Xem danh sách cố vấn</a>
         </div>
       </div>
 
@@ -247,16 +245,14 @@ main { flex: 1; animation: fadeIn 0.5s ease forwards; }
           <div class="avatar">👩‍💻</div>
           <div class="avatar">👨‍🏫</div>
         </div>
-        <a href="dangky.html" class="btn btn-primary" style="font-size:12.5px;padding:9px 20px;border-radius:10px;white-space:nowrap;">Xem tất cả cố vấn →</a>
+        <a href="covan.html" class="btn btn-primary" style="font-size:12.5px;padding:9px 20px;border-radius:10px;white-space:nowrap;">Xem tất cả cố vấn →</a>
       </div>
     </div>
   </div>
 </main>
 
-<!-- ② Placeholder footer – components.js sẽ tự điền vào -->
 <div id="site-footer"></div>
 
-<!-- ③ Nhúng script – phải để CUỐI body -->
 <script src="components.js"></script>
 
 </body>
