@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng nhập Admin - EduConsult</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="login-admin-body">
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a href="index.html" class="site-header__logo">
+          <div class="site-header__logo-icon">🎓</div>
+          <div class="site-header__logo-text">
+            EduConsult
+            <span>Hệ thống tư vấn học tập</span>
+          </div>
+        </a>
+
+        <nav class="site-header__nav">
+          <a href="index.html">Trang chủ</a>
+          <a href="covan.html">Cố vấn</a>
+          <a href="manage-schedule.html">Lịch hẹn</a>
+          <a href="#">Về chúng tôi</a>
+        </nav>
+
+        <div class="site-header__right">
+          <div class="site-header__phone">
+            <strong>📞 1800 2345 2202</strong>
+            <small>Hỗ trợ tư vấn trực tuyến</small>
+          </div>
+          <a href="dangky.html" class="site-header__cta">Đăng ký miễn phí</a>
+        </div>
+
+        <button
+          class="site-header__hamburger"
+          onclick="
+            this.closest('header')
+              .querySelector('.site-header__nav')
+              .classList.toggle('is-open')
+          "
+        >
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- LOGIN SECTION -->
+    <main class="admin-login-wrapper">
+      <div class="admin-login-card">
+        <!-- Left panel -->
+        <div class="admin-login-left">
+          <div class="admin-login-left__content">
+            <div class="admin-login-left__badge">🔐 Khu vực quản trị</div>
+            <h2 class="admin-login-left__title">Chào mừng<br />Admin!</h2>
+            <p class="admin-login-left__desc">
+              Đăng nhập để quản lý toàn bộ hệ thống lịch tư vấn, sinh viên và cố
+              vấn học tập.
+            </p>
+
+            <ul class="admin-login-left__features">
+              <li>
+                <span class="admin-login-left__feat-icon">📊</span>
+                <span>Dashboard thống kê tổng quan</span>
+              </li>
+              <li>
+                <span class="admin-login-left__feat-icon">📅</span>
+                <span>Quản lý lịch hẹn toàn hệ thống</span>
+              </li>
+              <li>
+                <span class="admin-login-left__feat-icon">👨‍🏫</span>
+                <span>Quản lý cố vấn & giảng viên</span>
+              </li>
+              <li>
+                <span class="admin-login-left__feat-icon">🔒</span>
+                <span>Bảo mật dữ liệu trên Azure Cloud</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Right panel -->
+        <div class="admin-login-right">
+          <div class="admin-login-right__inner">
+            <div class="admin-login-right__logo">
+              <div class="admin-login-right__logo-icon">⚙️</div>
+              <span>Admin Panel</span>
+            </div>
+
+            <h1 class="admin-login-right__title">Đăng nhập quản trị</h1>
+            <p class="admin-login-right__sub">
+              Nhập thông tin tài khoản admin của bạn
+            </p>
+
+            <div
+              id="loginError"
+              class="admin-login-error"
+              style="display: none"
+            >
+              ⚠️ Sai tên đăng nhập hoặc mật khẩu!
+            </div>
+
+            <div class="admin-login-form">
+              <div class="admin-form-group">
+                <label class="admin-form-label">TÊN ĐĂNG NHẬP</label>
+                <div class="admin-form-input-wrap">
+                  <span class="admin-form-icon">👤</span>
+                  <input
+                    type="text"
+                    id="adminUsername"
+                    class="admin-form-input"
+                    placeholder="Nhập tên đăng nhập"
+                    autocomplete="username"
+                  />
+                </div>
+              </div>
+
+              <div class="admin-form-group">
+                <label class="admin-form-label">MẬT KHẨU</label>
+                <div class="admin-form-input-wrap">
+                  <span class="admin-form-icon">🔑</span>
+                  <input
+                    type="password"
+                    id="adminPassword"
+                    class="admin-form-input"
+                    placeholder="Nhập mật khẩu"
+                    autocomplete="current-password"
+                  />
+                  <button
+                    class="admin-form-toggle"
+                    type="button"
+                    onclick="togglePassword(this)"
+                    tabindex="-1"
+                  >
+                    👁
+                  </button>
+                </div>
+              </div>
+
+              <div class="admin-form-row">
+                <label class="admin-remember">
+                  <input type="checkbox" id="rememberMe" />
+                  <span>Ghi nhớ đăng nhập</span>
+                </label>
+                <a href="#" class="admin-forgot">Quên mật khẩu?</a>
+              </div>
+
+              <button class="admin-login-btn" onclick="handleAdminLogin()">
+                Đăng nhập →
+              </button>
+
+              <div class="admin-login-divider"><span>hoặc</span></div>
+
+              <p class="admin-login-back">
+                Không phải admin?
+                <a href="dangnhap.html">Đăng nhập người dùng</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <div class="site-footer__bottom">
+        <div class="site-footer__copy">
+          © 2026 <strong>EduConsult</strong> — Hệ thống quản lý lịch tư vấn
+        </div>
+        <div class="site-footer__legal">
+          <a href="#">Chính sách bảo mật</a>
+          <div class="site-footer__legal-sep"></div>
+          <a href="#">Điều khoản sử dụng</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      function togglePassword(btn) {
+        const input = btn
+          .closest(".admin-form-input-wrap")
+          .querySelector("input");
+        input.type = input.type === "password" ? "text" : "password";
+        btn.textContent = input.type === "password" ? "👁" : "🙈";
+      }
+
+      function handleAdminLogin() {
+        window.location.href = "admin.html";
+      }
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") handleAdminLogin();
+      });
+    </script>
+  </body>
+</html>

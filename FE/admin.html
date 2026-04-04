@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - EduConsult</title>
+    
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --accent: #2563eb;
+            --accent-deep: #1e40af;
+            --accent-light: #60a5fa;
+        }
+
+        body {
+            background: #f8fafc;
+        }
+
+        /* HEADER */
+        .site-header {
+            background: #1e3a8a;
+            box-shadow: 0 4px 15px rgba(30, 58, 138, 0.3);
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(180deg, #1e40af, #2563eb);
+            color: white;
+            padding: 24px 20px;
+            min-height: calc(100vh - 64px);
+            box-shadow: 4px 0 20px rgba(37, 99, 235, 0.25);
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 18px;
+            margin-bottom: 8px;
+            border-radius: 12px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateX(8px);
+        }
+
+        /* MAIN CONTENT */
+        .main {
+            flex: 1;
+            padding: 40px 50px;
+            background: #f8fafc;
+        }
+
+        .main h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        /* CARDS */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            margin-bottom: 50px;
+        }
+
+        .card {
+            background: white;
+            padding: 28px 24px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.08);
+            transition: all 0.4s ease;
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(37, 99, 235, 0.15);
+        }
+
+        .card h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #64748b;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            font-size: 42px;
+            font-weight: 800;
+            color: #1e40af;
+            margin: 0;
+        }
+
+        /* TABLE BOX */
+        .table-box {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.08);
+        }
+
+        .table-box h2 {
+            margin-bottom: 24px;
+            color: #1e40af;
+            font-size: 22px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            color: white;
+            padding: 16px 12px;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 16px 12px;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        tr:hover {
+            background: #f0f9ff;
+        }
+
+        .status {
+            color: #16a34a;
+            font-weight: 700;
+        }
+
+        /* ALERT */
+        .alert {
+            margin-top: 24px;
+            padding: 16px 20px;
+            border-radius: 12px;
+            background: #fefce8;
+            color: #854d0e;
+            font-weight: 500;
+            border-left: 5px solid #eab308;
+        }
+
+        /* PROGRESS */
+        .progress-container {
+            margin-top: 32px;
+        }
+
+        .progress-title {
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 10px;
+        }
+
+        .progress {
+            height: 14px;
+            background: #e2e8f0;
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #2563eb, #60a5fa);
+            width: 0%;
+            transition: width 1.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER MỚI THEO ẢNH -->
+<header class="site-header">
+    <div class="site-header__inner" style="max-width: 1400px; margin: 0 auto; padding: 0 32px; height: 80px; align-items: center; justify-content: space-between;">
+        
+        <!-- Logo EduConsult -->
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="width: 52px; height: 52px; background: #3b82f6; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px; color: white; box-shadow: 0 4px 12px rgba(59,130,246,0.4);">
+                🎓
+            </div>
+            <div>
+                <div style="color: white; font-size: 24px; font-weight: 800;">EduConsult</div>
+                <div style="color: #93c5fd; font-size: 13px; margin-top: -4px;">Hệ thống tư vấn học tập</div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav style="display: flex; gap: 8px; align-items: center;">
+            <a href="index.html" style="color: white; text-decoration: none; padding: 8px 16px; border-radius: 8px; font-weight: 500;">Trang chủ</a>
+            <a href="#" style="background: rgba(255,255,255,0.2); color: white; text-decoration: none; padding: 8px 20px; border-radius: 9999px; font-weight: 600;">Cố vấn</a>
+            <a href="manage-schedule.html" style="color: white; text-decoration: none; padding: 8px 16px; border-radius: 8px; font-weight: 500;">Lịch hẹn</a>
+            <a href="#" style="color: white; text-decoration: none; padding: 8px 16px; border-radius: 8px; font-weight: 500;">Về chúng tôi</a>
+        </nav>
+
+        <!-- Right side -->
+        <div style="display: flex; align-items: center; gap: 16px;">
+            <div style="color: white; text-align: right; line-height: 1.3;">
+                <strong style="display: block; font-size: 15px;">1800 2345 2202</strong>
+                <small style="font-size: 12px; opacity: 0.9;">Hỗ trợ tư vấn trực tuyến</small>
+            </div>
+            <a href="#" style="background: white; color: #1e3a8a; padding: 10px 24px; border-radius: 9999px; font-weight: 700; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">Đăng ký miễn phí</a>
+        </div>
+    </div>
+</header>
+
+<!-- Phần nội dung cũ giữ nguyên hoàn toàn -->
+<div style="display: flex; min-height: calc(100vh - 80px);">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <a href="admin.html" class="active">🏠 Dashboard</a>
+        <a href="manage-schedule.html">📅 Quản lý lịch</a>
+        <a href="my-schedule.html">📝 Lịch sinh viên</a>
+        <a href="covan.html">👨‍🏫 Quản lý cố vấn</a>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main">
+        <h1>Dashboard quản trị</h1>
+
+        <div class="cards">
+            <div class="card">
+                <h3>Tổng lịch hẹn</h3>
+                <p id="totalSchedules">0</p>
+            </div>
+            <div class="card">
+                <h3>Tổng sinh viên</h3>
+                <p id="totalStudents">0</p>
+            </div>
+            <div class="card">
+                <h3>Lịch hôm nay</h3>
+                <p id="todaySchedules">0</p>
+            </div>
+        </div>
+
+        <div class="table-box">
+            <h2>Lịch gần đây</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tên sinh viên</th>
+                        <th>Ngày</th>
+                        <th>Giờ</th>
+                        <th>Nội dung tư vấn</th>
+                        <th>Trạng thái</th>
+                    </tr>
+                </thead>
+                <tbody id="recentSchedules"></tbody>
+            </table>
+
+            <div class="alert" id="alertBox">
+                Không có cảnh báo lịch trùng.
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-title">Tỷ lệ sử dụng lịch hẹn</div>
+                <div class="progress">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+    <div class="site-footer__bottom">
+        <div class="site-footer__copy">
+            © 2026 <strong>EduConsult</strong> - Hệ thống quản lý lịch tư vấn
+        </div>
+    </div>
+</footer>
+
+<script>
+    let schedules = JSON.parse(localStorage.getItem("schedules")) || [];
+
+    // Tính toán số liệu
+    const total = schedules.length;
+    const uniqueStudents = [...new Set(schedules.map(item => item.name))].length;
+    const today = new Date().toISOString().split("T")[0];
+    const todayCount = schedules.filter(item => item.date === today).length;
+
+    // Hiển thị số liệu với animation
+    function animateValue(id, start, end, duration) {
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            const value = Math.floor(progress * (end - start) + start);
+            document.getElementById(id).innerText = value;
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            }
+        };
+        window.requestAnimationFrame(step);
+    }
+
+    animateValue("totalSchedules", 0, total, 1200);
+    animateValue("totalStudents", 0, uniqueStudents, 1200);
+    animateValue("todaySchedules", 0, todayCount, 1200);
+
+    // Hiển thị lịch gần đây
+    const recentTable = document.getElementById("recentSchedules");
+    if (total === 0) {
+        recentTable.innerHTML = `<tr><td colspan="5" style="padding:40px; color:#64748b;">Chưa có dữ liệu</td></tr>`;
+    } else {
+        schedules.slice(-5).reverse().forEach(item => {
+            recentTable.innerHTML += `
+                <tr>
+                    <td>${item.name}</td>
+                    <td>${item.date}</td>
+                    <td>${item.time}</td>
+                    <td>${item.service}</td>
+                    <td class="status">Đã đặt</td>
+                </tr>`;
+        });
+    }
+
+    // Kiểm tra lịch trùng
+    let hasDuplicate = false;
+    for (let i = 0; i < schedules.length; i++) {
+        for (let j = i + 1; j < schedules.length; j++) {
+            if (schedules[i].date === schedules[j].date && schedules[i].time === schedules[j].time) {
+                hasDuplicate = true;
+                break;
+            }
+        }
+        if (hasDuplicate) break;
+    }
+
+    if (hasDuplicate) {
+        document.getElementById("alertBox").innerHTML = "⚠ Có lịch trùng thời gian cần kiểm tra!";
+        document.getElementById("alertBox").style.background = "#fee2e2";
+        document.getElementById("alertBox").style.color = "#b91c1c";
+        document.getElementById("alertBox").style.borderLeftColor = "#ef4444";
+    }
+
+    // Progress bar
+    const usage = Math.min((total / 30) * 100, 100);
+    setTimeout(() => {
+        document.getElementById("progressBar").style.width = usage + "%";
+    }, 800);
+
+</script>
+
+</body>
+</html>
