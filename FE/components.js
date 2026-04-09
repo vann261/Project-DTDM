@@ -61,6 +61,50 @@
           link.addEventListener('click', () => nav.classList.remove('is-open'))
         );
       }
+
+      // ── Kiểm tra session → cập nhật header ──────────────────
+      try {
+        const res  = await fetch('../BE/auth/check_session.php');
+        const data = await res.json();
+
+        const guestBtn  = document.getElementById('header-cta-guest');
+        const userInfo  = document.getElementById('header-user-info');
+        const userName  = document.getElementById('header-user-name');
+        const userRole  = document.getElementById('header-user-role');
+
+        const roleLabel = { student: 'Sinh viên', advisor: 'Cố vấn', admin: 'Quản trị viên' };
+
+        if (data.logged_in) {
+          // Đã đăng nhập → ẩn nút đăng ký, hiện tên + dropdown
+          if (guestBtn) guestBtn.style.display = 'none';
+          if (userInfo) userInfo.style.display = 'flex';
+          if (userName) { userName.textContent = data.name; userName.style.color = '#ffffff'; }
+          if (userRole) { userRole.textContent = roleLabel[data.role] ?? data.role; userRole.style.color = 'rgba(255,255,255,0.75)'; }
+
+          // Cập nhật dropdown
+          const ddName   = document.getElementById('dropdown-user-name');
+          const ddRole   = document.getElementById('dropdown-user-role');
+          const ddAvatar = document.getElementById('dropdown-avatar');
+          if (ddName)   ddName.textContent   = data.name;
+          if (ddRole)   ddRole.textContent   = roleLabel[data.role] ?? data.role;
+          if (ddAvatar) ddAvatar.textContent = data.name.charAt(0).toUpperCase();
+
+          // Ẩn card CTA khi đã login (index.html)
+          const ctaCard = document.querySelector('.card-cta');
+          if (ctaCard) {
+            ctaCard.style.display = 'none';
+            const grid = document.querySelector('.bottom-grid');
+            if (grid) grid.style.gridTemplateColumns = '1fr 1fr';
+          }
+        } else {
+          // Chưa đăng nhập → hiện nút Đăng ký, ẩn tên
+          if (guestBtn) guestBtn.style.display = '';
+          if (userInfo) userInfo.style.display = 'none';
+        }
+      } catch (e) {
+        // Không kết nối được BE → giữ nguyên giao diện guest
+        console.warn('[EduConsult] Không thể kiểm tra session:', e);
+      }
     }
   }
 
@@ -71,3 +115,24 @@
     if (footerNode) footerSlot.replaceWith(footerNode);
   }
 })();
+
+// ── Toggle dropdown user menu ────────────────────────────
+// Dùng event delegation vì #user-menu-btn được inject sau
+document.addEventListener('click', function(e) {
+  const btn      = document.getElementById('user-menu-btn');
+  const dropdown = document.getElementById('user-dropdown');
+
+  if (!dropdown) return;
+
+  // Nếu click vào nút tên → toggle
+  if (btn && btn.contains(e.target)) {
+    const isOpen = dropdown.style.display === 'block';
+    dropdown.style.display = isOpen ? 'none' : 'block';
+    return;
+  }
+
+  // Nếu click ra ngoài → đóng
+  if (!dropdown.contains(e.target)) {
+    dropdown.style.display = 'none';
+  }
+});

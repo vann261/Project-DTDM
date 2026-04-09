@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý sinh viên - EduConsult</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --admin-dark: #0f172a; --admin-sidebar: #1e293b; --accent: #3b82f6;
+            --accent-gold: #f59e0b; --sidebar-text: #cbd5e1; --header-height: 70px;
+        }
+        body { background: #f1f5f9; margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; color: #1e293b; overflow-x: hidden; }
+
+        /* --- UI COMPONENTS ĐỒNG BỘ TỪ ADMIN.HTML --- */
+        .admin-header {
+            background: var(--admin-dark); height: var(--header-height);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 30px; position: fixed; width: 100%; top: 0; z-index: 1000; box-sizing: border-box;
+        }
+        .logo { color: white; font-size: 20px; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+        .admin-badge { background: var(--accent-gold); color: #000; font-size: 10px; padding: 2px 8px; border-radius: 4px; font-weight: 800; }
+        .header-right { display: flex; align-items: center; gap: 20px; color: white; font-size: 14px; }
+        .btn-logout { background: #ef4444; color: white; border: none; padding: 8px 18px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+
+        .container { display: flex; margin-top: var(--header-height); min-height: calc(100vh - var(--header-height)); }
+
+        .sidebar { width: 260px; background: var(--admin-sidebar); color: white; padding: 25px 15px; position: fixed; height: 100%; box-sizing: border-box; }
+        .sidebar-label { font-size: 11px; text-transform: uppercase; color: #64748b; letter-spacing: 1.5px; margin: 25px 0 12px 15px; font-weight: 700; }
+        .sidebar a { display: flex; align-items: center; padding: 12px 18px; margin-bottom: 4px; border-radius: 10px; color: var(--sidebar-text); text-decoration: none; font-weight: 500; font-size: 14px; transition: 0.2s; gap: 12px; }
+        .sidebar a:hover { background: rgba(255,255,255,0.05); color: white; }
+        .sidebar a.active { background: var(--accent); color: white; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); }
+
+        .main { flex: 1; margin-left: 260px; padding: 40px; box-sizing: border-box; }
+
+        /* --- NỘI DUNG RIÊNG TRANG SINH VIÊN --- */
+        .content-card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .top-bar { display: flex; justify-content: space-between; margin-bottom: 25px; gap: 20px; align-items: center; }
+        .search-box { flex: 1; }
+        .search-box input { width: 100%; padding: 12px 20px; border-radius: 12px; border: 1px solid #e2e8f0; outline: none; font-family: inherit; transition: 0.2s; }
+        .search-box input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 15px; color: #64748b; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid #f1f5f9; }
+        td { padding: 15px; font-size: 14px; border-bottom: 1px solid #f1f5f9; }
+
+        .btn { border: none; padding: 10px 18px; border-radius: 10px; cursor: pointer; font-weight: 700; font-size: 13px; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-add { background: var(--accent); color: white; box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2); }
+        .btn-edit { background: #f0fdf4; color: #16a34a; margin-right: 5px; }
+        .btn-delete { background: #fef2f2; color: #dc2626; }
+        .btn-cancel { background: #f1f5f9; color: #64748b; }
+
+        /* --- MODAL STYLE --- */
+        .modal { display: none; position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); }
+        .modal-content { background: white; width: 450px; margin: 80px auto; padding: 30px; border-radius: 24px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); position: relative; animation: slideDown 0.3s ease-out; }
+        @keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 8px; color: #475569; }
+        .form-group input { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; outline: none; box-sizing: border-box; font-family: inherit; }
+        .form-group input:focus { border-color: var(--accent); }
+    </style>
+</head>
+<body>
+
+    <header class="admin-header">
+        <a href="admin.html" class="logo">🎓 EduConsult <span class="admin-badge">ADMIN PANEL</span></a>
+        <div class="header-right">
+            <div>Admin <small style="display:block; font-size:10px; opacity:0.7;">Quản trị hệ thống</small></div>
+            <button class="btn-logout" onclick="location.href='../BE/logout.php'">Đăng xuất</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-label">Hệ thống</div>
+            <a href="admin.html"><span></span> Tổng quan</a>
+            <div class="sidebar-label">Quản lý chính</div>
+            <a href="manage_schedule.html"><span></span> Lịch hẹn</a>
+            <a href="manage_covan.html"><span></span> Cố vấn</a>
+            <a href="students.html" class="active"><span></span> Sinh viên</a>
+        </div>
+
+        <div class="main">
+            <h1 style="margin: 0 0 10px 0; font-size: 24px; font-weight: 800;">Quản lý Sinh viên</h1>
+            <p style="color: #64748b; margin-bottom: 30px;">Danh sách tài khoản sinh viên có quyền truy cập hệ thống tư vấn.</p>
+            
+            <div class="top-bar">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Tìm tên hoặc email sinh viên..." onkeyup="filterTable()">
+                </div>
+                <button class="btn btn-add" onclick="openModal('add')"><span>+</span> Thêm sinh viên</button>
+            </div>
+
+            <div class="content-card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Họ và tên</th>
+                            <th>Email</th>
+                            <th>Ngày tham gia</th>
+                            <th style="text-align: right;">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="student-tbody">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="studentModal" class="modal">
+        <div class="modal-content">
+            <h2 id="modalTitle" style="margin-top:0; font-size: 20px;">Sinh viên</h2>
+            <form id="studentForm">
+                <input type="hidden" id="studentId">
+                <div class="form-group">
+                    <label>Họ và tên</label>
+                    <input type="text" id="formName" placeholder="Nhập tên đầy đủ" required>
+                </div>
+                <div class="form-group">
+                    <label>Địa chỉ Email</label>
+                    <input type="email" id="formEmail" placeholder="vidu@student.com" required>
+                </div>
+                <div class="form-group" id="passContainer">
+                    <label>Mật khẩu đăng nhập</label>
+                    <input type="password" id="formPass" placeholder="Tối thiểu 6 ký tự">
+                </div>
+                <div style="display: flex; gap: 12px; margin-top: 30px;">
+                    <button type="button" class="btn btn-cancel" style="flex:1" onclick="closeModal()">Hủy bỏ</button>
+                    <button type="submit" class="btn btn-add" style="flex:1">Lưu thay đổi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let allStudents = [];
+
+        document.addEventListener("DOMContentLoaded", fetchStudents);
+
+        // Lấy danh sách từ API
+        async function fetchStudents() {
+            try {
+                const res = await fetch('../BE/manage_students_api.php?action=fetch');
+                allStudents = await res.json();
+                renderTable(allStudents);
+            } catch (err) {
+                console.error("Lỗi tải dữ liệu:", err);
+            }
+        }
+
+        // Đổ dữ liệu vào bảng
+        function renderTable(data) {
+            const tbody = document.getElementById('student-tbody');
+            if (data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:30px; color:#64748b;">Không tìm thấy sinh viên nào.</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = data.map(s => `
+                <tr>
+                    <td style="font-weight:700; color:var(--admin-dark);">${s.name}</td>
+                    <td style="color:#64748b;">${s.email}</td>
+                    <td style="color:#64748b;">${new Date(s.created_at).toLocaleDateString('vi-VN')}</td>
+                    <td style="text-align: right;">
+                        <button class="btn btn-edit" onclick="openModal('edit', ${s.id})">Sửa</button>
+                        <button class="btn btn-delete" onclick="deleteStudent(${s.id})">Xóa</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Tìm kiếm tại chỗ
+        function filterTable() {
+            const val = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = allStudents.filter(s => 
+                s.name.toLowerCase().includes(val) || 
+                s.email.toLowerCase().includes(val)
+            );
+            renderTable(filtered);
+        }
+
+        // Mở Modal
+        function openModal(mode, id = null) {
+            const modal = document.getElementById('studentModal');
+            const title = document.getElementById('modalTitle');
+            const passField = document.getElementById('passContainer');
+            
+            if (mode === 'add') {
+                title.innerText = "Thêm sinh viên mới";
+                document.getElementById('studentForm').reset();
+                document.getElementById('studentId').value = "";
+                passField.style.display = "block";
+                document.getElementById('formPass').required = true;
+            } else {
+                const s = allStudents.find(item => item.id == id);
+                title.innerText = "Chỉnh sửa thông tin";
+                document.getElementById('studentId').value = s.id;
+                document.getElementById('formName').value = s.name;
+                document.getElementById('formEmail').value = s.email;
+                passField.style.display = "none";
+                document.getElementById('formPass').required = false;
+            }
+            modal.style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById('studentModal').style.display = "none";
+        }
+
+        // Xử lý Submit Form (Add/Update)
+        document.getElementById('studentForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('studentId').value;
+            const action = id ? 'update' : 'add';
+            const body = {
+                id: id,
+                name: document.getElementById('formName').value,
+                email: document.getElementById('formEmail').value,
+                password: document.getElementById('formPass').value
+            };
+
+            const res = await fetch(`../BE/manage_students_api.php?action=${action}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+            const result = await res.json();
+            
+            if(result.success) {
+                closeModal();
+                fetchStudents();
+            } else {
+                alert("Lỗi: " + result.error);
+            }
+        };
+
+        // Xóa sinh viên
+        async function deleteStudent(id) {
+            if(!confirm("Bạn có chắc chắn muốn xóa sinh viên này? Thao tác này không thể hoàn tác.")) return;
+            const res = await fetch(`../BE/manage_students_api.php?action=delete`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({id: id})
+            });
+            fetchStudents();
+        }
+
+        window.onclick = (e) => { if(e.target.className === 'modal') closeModal(); }
+    </script>
+</body>
+</html>

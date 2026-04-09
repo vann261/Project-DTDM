@@ -1,0 +1,16 @@
+/* FE/admin-style.css */
+:root {
+    --admin-dark: #0f172a; --admin-sidebar: #1e293b; --accent: #3b82f6;
+    --accent-gold: #f59e0b; --sidebar-text: #cbd5e1; --header-height: 70px;
+}
+body { background: #f1f5f9; margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
+
+.admin-header {
+    background: var(--admin-dark); height: var(--header-height);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 30px; position: fixed; width: 100%; top: 0; z-index: 1000; box-sizing: border-box;
+}
+/* ... Copy toàn bộ các class CSS từ thẻ <style> của admin.html vào đây ... */
+
+.sidebar { width: 260px; background: var(--admin-sidebar); color: white; padding: 25px 15px; position: fixed; height: 100%; box-sizing: border-box; top: var(--header-height); left: 0; }
+.main { margin-left: 260px; padding: 40px; margin-top: var(--header-height); }

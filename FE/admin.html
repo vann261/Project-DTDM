@@ -284,6 +284,7 @@
             </div>
         </div>
     </div>
+<<<<<<< HEAD
 </div>
 
 <!-- FOOTER -->
@@ -367,5 +368,36 @@
 
 </script>
 
+=======
+
+    <script>
+        async function loadStats() {
+            try {
+                // Gọi tới file PHP lấy dữ liệu
+                const response = await fetch('../BE/admin_data.php');
+                const data = await response.json();
+
+                if (!data.error) {
+                    // Cập nhật số liệu vào giao diện
+                    document.getElementById('count-app').innerText = data.total_appointments.toLocaleString();
+                    document.getElementById('count-stu').innerText = data.total_students.toLocaleString();
+                    document.getElementById('count-adv').innerText = data.total_advisors.toLocaleString();
+                }
+            } catch (err) {
+                console.error("Lỗi tải dữ liệu:", err);
+            }
+        }
+
+        function logout() {
+    if(confirm('Xác nhận đăng xuất khỏi hệ thống?')) {
+        // Thêm /auth/ vào đường dẫn vì bạn đã di chuyển file vào đó
+        window.location.href = '../BE/auth/logout.php';
+    }
+}
+
+        // Tự động tải dữ liệu khi mở trang
+        window.onload = loadStats;
+    </script>
+>>>>>>> 3f5e6b0 (update BE)
 </body>
 </html>

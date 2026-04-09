@@ -195,21 +195,21 @@
         </div>
         <form onsubmit="handleRegister(event)">
           <div class="form-row-2">
-            <div class="form-group"><label>Họ</label><input type="text" placeholder="Nguyễn" required></div>
-            <div class="form-group"><label>Tên</label><input type="text" placeholder="Văn An" required></div>
+            <div class="form-group"><label>Họ</label><input type="text" name="ho" id="input-ho" placeholder="Nguyễn" required></div>
+            <div class="form-group"><label>Tên</label><input type="text" name="ten" id="input-ten" placeholder="Văn An" required></div>
           </div>
           <div class="form-group">
             <label>Email trường học</label>
-            <input type="email" placeholder="21110xxx@student.hcmute.edu.vn" required>
+            <input type="email" name="email" placeholder="21110xxx@student.hcmute.edu.vn" required>
           </div>
           <div class="form-row-2">
             <div class="form-group">
               <label>Mã số sinh viên</label>
-              <input type="text" id="mssv-field" placeholder="21110001" required>
+              <input type="text" id="mssv-field" name="mssv" placeholder="21110001" required>
             </div>
             <div class="form-group">
               <label>Khoa / Bộ môn</label>
-              <select>
+              <select name="khoa">
                 <option value="">-- Chọn khoa --</option>
                 <option>Công nghệ thông tin</option>
                 <option>Điện - Điện tử</option>
@@ -221,14 +221,16 @@
           </div>
           <div class="form-group">
             <label>Mật khẩu</label>
-            <input type="password" id="pw" placeholder="Ít nhất 8 ký tự" oninput="checkStrength(this)" required>
+            <input type="password" name="password" id="pw" placeholder="Ít nhất 8 ký tự" oninput="checkStrength(this)" required>
             <div class="strength-bar"><div class="strength-fill" id="strength-fill"></div></div>
             <div class="strength-label" id="strength-label">Nhập mật khẩu để kiểm tra độ mạnh</div>
           </div>
           <div class="form-group">
             <label>Xác nhận mật khẩu</label>
-            <input type="password" placeholder="Nhập lại mật khẩu" required>
+            <input type="password" name="confirm_password" placeholder="Nhập lại mật khẩu" required>
           </div>
+          <p id="reg-error"   style="color:#ef4444;font-size:13px;margin:-8px 0 12px;display:none;"></p>
+          <p id="reg-success" style="color:#22c55e;font-size:13px;margin:-8px 0 12px;display:none;"></p>
           <label class="terms-wrap" style="text-transform:none;letter-spacing:0;">
             <input type="checkbox" required>
             Tôi đồng ý với <a href="#">Điều khoản sử dụng</a> và <a href="#">Chính sách bảo mật</a> của EduConsult
@@ -276,16 +278,50 @@
     label.textContent = cfg.text;
     label.style.color = cfg.color === '#e5e7eb' ? '#6b8eb5' : cfg.color;
   }
-  function handleRegister(e) {
+
+  async function handleRegister(e) {
     e.preventDefault();
-    const btn = document.getElementById('reg-btn');
-    btn.textContent = 'Đang tạo tài khoản...'; btn.disabled = true;
-    setTimeout(() => {
-      btn.textContent = '✓ Đăng ký thành công!';
-      btn.style.background = '#22c55e';
-      btn.style.boxShadow = '0 4px 16px rgba(34,197,94,0.35)';
-      setTimeout(() => { window.location.href = 'dangnhap.html'; }, 1200);
-    }, 1400);
+
+    const btn       = document.getElementById('reg-btn');
+    const errorEl   = document.getElementById('reg-error');
+    const successEl = document.getElementById('reg-success');
+
+    // Ghép họ + tên thành name gửi lên server
+    const ho  = document.getElementById('input-ho').value.trim();
+    const ten = document.getElementById('input-ten').value.trim();
+    const formData = new FormData(e.target);
+    formData.set('name', ho + ' ' + ten); // đúng với cột `name` trong DB
+
+    // Reset thông báo
+    errorEl.style.display   = 'none';
+    successEl.style.display = 'none';
+
+    btn.textContent = 'Đang tạo tài khoản...';
+    btn.disabled    = true;
+
+    try {
+      const res  = await fetch('../BE/auth/dangky.php', { method: 'POST', body: formData });
+      const data = await res.json();
+
+      if (data.success) {
+        successEl.textContent   = data.message;
+        successEl.style.display = 'block';
+        btn.textContent         = '✓ Đăng ký thành công!';
+        btn.style.background    = '#22c55e';
+        btn.style.boxShadow     = '0 4px 16px rgba(34,197,94,0.35)';
+        setTimeout(() => { window.location.href = 'dangnhap.html'; }, 1500);
+      } else {
+        errorEl.textContent   = data.message;
+        errorEl.style.display = 'block';
+        btn.textContent       = 'Tạo tài khoản →';
+        btn.disabled          = false;
+      }
+    } catch (err) {
+      errorEl.textContent   = 'Không thể kết nối máy chủ. Vui lòng thử lại.';
+      errorEl.style.display = 'block';
+      btn.textContent       = 'Tạo tài khoản →';
+      btn.disabled          = false;
+    }
   }
 </script>
 </body>

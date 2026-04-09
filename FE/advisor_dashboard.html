@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Cố vấn – EduConsult</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --blue: #2563eb; --navy: #1e3a8a; --bg: #f8faff;
+            --white: #ffffff; --gray: #64748b; --border: #e2e8f0;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --green: #22c55e; --red: #ef4444; --orange: #f59e0b;
+        }
+
+        * { box-sizing: border-box; transition: all 0.2s ease; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); margin: 0; display: flex; flex-direction: column; min-height: 100vh; color: #1e293b; }
+
+        /* ── HEADER ── */
+        .site-header {
+            background: var(--navy); color: white; padding: 0 40px; height: 70px;
+            display: flex; align-items: center; justify-content: space-between;
+            position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+        .header-logo { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 22px; }
+        
+        .header-right { display: flex; align-items: center; gap: 15px; }
+        .user-meta { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.1); padding: 6px 16px; border-radius: 99px; border: 1px solid rgba(255,255,255,0.2); }
+        
+        .btn-logout-top { 
+            background: #ff4757; color: white; border: none; padding: 8px 16px; 
+            border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 13px;
+            text-decoration: none; display: flex; align-items: center; gap: 5px;
+        }
+        .btn-logout-top:hover { background: #ff6b81; transform: translateY(-2px); }
+
+        /* ── BANNER ── */
+        .dash-banner { background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); padding: 60px 40px 120px; color: white; }
+        .dash-banner h1 { margin: 0; font-size: 32px; font-weight: 800; }
+
+        /* ── MAIN CONTENT ── */
+        .main-content { flex: 1; padding: 0 40px 40px; margin-top: -70px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: white; padding: 24px; border-radius: 24px; border: 1px solid var(--border); box-shadow: var(--shadow); }
+        .stat-val { font-size: 28px; font-weight: 800; color: var(--navy); display: block; }
+        .stat-lbl { font-size: 14px; color: var(--gray); font-weight: 600; }
+
+        /* ── TABS ── */
+        .tab-container { background: white; border-radius: 28px; padding: 30px; border: 1px solid var(--border); box-shadow: var(--shadow); }
+        .tab-menu { display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px; }
+        .tab-link { padding: 12px 20px; border-radius: 12px; cursor: pointer; font-weight: 700; color: var(--gray); font-size: 14px; }
+        .tab-link.active { background: var(--blue); color: white; }
+
+        .tab-panel { display: none; animation: fadeIn 0.4s ease; }
+        .tab-panel.active { display: block; }
+
+        /* ── TABLES ── */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th { background: #f8fafc; text-align: left; padding: 12px; border-bottom: 2px solid #e2e8f0; color: var(--navy); font-size: 13px; }
+        td { padding: 12px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+
+        .btn-action { padding: 6px 12px; border-radius: 6px; font-weight: 700; cursor: pointer; border: 1px solid; font-size: 12px; margin-right: 5px; background: none; }
+        .btn-approve { color: var(--green); border-color: var(--green); }
+        .btn-approve:hover { background: var(--green); color: white; }
+        .btn-cancel { color: var(--red); border-color: var(--red); }
+        .btn-cancel:hover { background: var(--red); color: white; }
+        .btn-del { color: var(--red); border: none; background: none; cursor: pointer; font-weight: 700; }
+
+        .slot-form { background: #f8fafc; padding: 20px; border-radius: 15px; display: flex; gap: 15px; align-items: flex-end; margin-bottom: 20px; flex-wrap: wrap; }
+        .form-group { flex: 1; min-width: 150px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 700; font-size: 12px; color: var(--gray); }
+        .form-group input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="header-logo"><span style="background:white; color:var(--navy); padding:4px 10px; border-radius:8px;">E</span> EduConsult</div>
+        <div class="header-right">
+            <div class="user-meta">🟢 <span id="advisorNameTop" style="font-weight: 700;">Đang tải...</span></div>
+            <a href="../BE/auth/dangxuat.php" class="btn-logout-top">Đăng xuất</a>
+        </div>
+    </header>
+
+    <div class="dash-banner">
+        <h1>Xin chào, <span id="welcomeName">Cố vấn</span>! 👋</h1>
+        <p id="currentDate" style="opacity: 0.8;"></p>
+    </div>
+
+    <main class="main-content">
+        <div class="stats-grid">
+            <div class="stat-card"><span class="stat-val" id="count-pending">0</span><span class="stat-lbl">Chờ phê duyệt</span></div>
+            <div class="stat-card"><span class="stat-val" id="count-confirmed">0</span><span class="stat-lbl">Đã xác nhận</span></div>
+            <div class="stat-card"><span class="stat-val" id="count-students">0</span><span class="stat-lbl">Tổng sinh viên</span></div>
+            <div class="stat-card"><span class="stat-val" id="count-today">0</span><span class="stat-lbl">Lịch hôm nay</span></div>
+        </div>
+
+        <div class="tab-container">
+            <div class="tab-menu">
+                <div class="tab-link active" onclick="showTab('overview', this)">Tổng quan</div>
+                <div class="tab-link" onclick="showTab('appointments', this)">Danh sách lịch hẹn</div>
+                <div class="tab-link" onclick="showTab('slots', this)">Cài đặt khung giờ</div>
+            </div>
+
+            <div id="overview" class="tab-panel active">
+                <h3 style="color:var(--navy);">Lịch hẹn cần xử lý</h3>
+                <div id="pendingList">Đang tải...</div>
+            </div>
+
+            <div id="appointments" class="tab-panel">
+                <h3 style="color:var(--navy);">Quản lý tất cả lịch hẹn</h3>
+                <div id="allList">Đang tải...</div>
+            </div>
+
+            <div id="slots" class="tab-panel">
+                <h3 style="color:var(--navy);">Đăng ký khung giờ rảnh</h3>
+                <div class="slot-form">
+                    <div class="form-group"><label>Ngày:</label><input type="date" id="slotDate"></div>
+                    <div class="form-group"><label>Bắt đầu:</label><input type="time" id="startTime"></div>
+                    <div class="form-group"><label>Kết thúc:</label><input type="time" id="endTime"></div>
+                    <button onclick="addNewSlot()" style="background:var(--blue); color:white; border:none; padding:12px 25px; border-radius:10px; font-weight:700; cursor:pointer;">Lưu giờ</button>
+                </div>
+                <h4 style="color:var(--gray)">Các khung giờ bạn đã mở</h4>
+                <div id="slotsListTable">Đang tải...</div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function showTab(tabId, element) {
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab-link').forEach(l => l.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            element.classList.add('active');
+            if(tabId === 'slots') loadSlots();
+        }
+
+        async function loadData() {
+            try {
+                // Đảm bảo đường dẫn này khớp với vị trí file advisor_api.php của bạn
+                const res = await fetch('../BE/advisor_api.php');
+                const data = await res.json();
+                
+                document.getElementById('count-pending').innerText = data.pending;
+                document.getElementById('count-confirmed').innerText = data.confirmed;
+                document.getElementById('count-students').innerText = data.total_students;
+                document.getElementById('count-today').innerText = data.today;
+                document.getElementById('advisorNameTop').innerText = data.advisor_name;
+                document.getElementById('welcomeName').innerText = data.advisor_name;
+
+                renderTable(data.appointments_list);
+            } catch (e) { console.error("Lỗi tải dữ liệu:", e); }
+        }
+
+        function renderTable(list) {
+            if(!list || list.length === 0) {
+                document.getElementById('allList').innerHTML = "Chưa có lịch hẹn nào.";
+                document.getElementById('pendingList').innerHTML = "Không có lịch hẹn chờ duyệt.";
+                return;
+            }
+
+            let fullHtml = `<table><tr><th>Sinh viên</th><th>Chủ đề</th><th>Thời gian</th><th>Trạng thái</th><th>Hành động</th></tr>`;
+            let pendingHtml = fullHtml;
+            let hasPending = false;
+
+            list.forEach(app => {
+                const statusColor = app.status === 'confirmed' ? 'var(--green)' : (app.status === 'pending' ? 'var(--orange)' : 'var(--red)');
+                let actions = '';
+                if(app.status === 'pending') {
+                    hasPending = true;
+                    actions = `
+                        <button class="btn-action btn-approve" onclick="updateStatus(${app.appointment_id}, 'confirmed')">Duyệt</button>
+                        <button class="btn-action btn-cancel" onclick="updateStatus(${app.appointment_id}, 'cancelled')">Hủy</button>
+                    `;
+                } else {
+                    actions = `<small style="color:var(--gray)">Đã xử lý</small>`;
+                }
+
+                const row = `<tr>
+                    <td style="font-weight:700;">${app.student_name}</td>
+                    <td>${app.topic || 'Tư vấn học tập'}</td>
+                    <td>${app.date}<br><small style="color:var(--gray)">${app.start_time} - ${app.end_time}</small></td>
+                    <td style="color:${statusColor}; font-weight:800;">● ${app.status.toUpperCase()}</td>
+                    <td>${actions}</td>
+                </tr>`;
+
+                fullHtml += row;
+                if(app.status === 'pending') pendingHtml += row;
+            });
+
+            document.getElementById('allList').innerHTML = fullHtml + `</table>`;
+            document.getElementById('pendingList').innerHTML = hasPending ? (pendingHtml + `</table>`) : "Tất cả lịch hẹn đã được xử lý.";
+        }
+
+        async function updateStatus(id, newStatus) {
+            if(!confirm("Xác nhận thao tác này?")) return;
+            await fetch('../BE/advisor_api.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ appointment_id: id, new_status: newStatus })
+            });
+            loadData();
+        }
+
+        async function loadSlots() {
+            const res = await fetch('../BE/manage_slots.php');
+            const slots = await res.json();
+            let html = `<table><tr><th>Ngày</th><th>Bắt đầu</th><th>Kết thúc</th><th>Trạng thái</th><th>Hành động</th></tr>`;
+            slots.forEach(s => {
+                html += `<tr>
+                    <td>${s.date}</td>
+                    <td>${s.start_time}</td>
+                    <td>${s.end_time}</td>
+                    <td style="text-transform:capitalize">${s.status}</td>
+                    <td><button class="btn-del" onclick="deleteSlot(${s.slot_id})">Xóa</button></td>
+                </tr>`;
+            });
+            document.getElementById('slotsListTable').innerHTML = html + `</table>`;
+        }
+
+        async function addNewSlot() {
+            const date = document.getElementById('slotDate').value;
+            const start_time = document.getElementById('startTime').value;
+            const end_time = document.getElementById('endTime').value;
+            if(!date || !start_time || !end_time) return alert("Vui lòng điền đủ thông tin!");
+
+            await fetch('../BE/manage_slots.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({date, start_time, end_time})
+            });
+            loadSlots(); loadData();
+        }
+
+        async function deleteSlot(id) {
+            if(!confirm("Xóa khung giờ này?")) return;
+            await fetch(`../BE/manage_slots.php?id=${id}`, { method: 'DELETE' });
+            loadSlots(); loadData();
+        }
+
+        document.getElementById('currentDate').innerText = new Date().toLocaleDateString('vi-VN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        window.onload = loadData;
+    </script>
+</body>
+</html>

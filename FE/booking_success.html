@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đặt lịch thành công – EduConsult</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; }
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: linear-gradient(180deg, #eef6ff, #f8fbff);
+    margin: 0; color: #1e3a8a;
+}
+
+.hero {
+    background: linear-gradient(135deg, #3b82f6, #2563eb 55%, #1d4ed8);
+    color: white; padding: 54px 10% 80px;
+    position: relative; overflow: hidden;
+}
+.hero::before { content:""; position:absolute; width:240px; height:240px; border-radius:50%; background:#93c5fd; filter:blur(45px); opacity:0.22; top:-70px; right:110px; }
+.hero::after  { content:""; position:absolute; width:200px; height:200px; border-radius:50%; background:#dbeafe; filter:blur(45px); opacity:0.22; bottom:-60px; left:8%; }
+.hero h1 { position:relative; z-index:1; margin:0; font-size:clamp(28px,4vw,42px); font-weight:800; letter-spacing:-0.03em; }
+.hero p  { position:relative; z-index:1; margin:10px 0 0; max-width:600px; font-size:15px; line-height:1.7; color:#e8f1ff; }
+
+.page-wrap {
+    width: min(680px, 82%);
+    margin: -56px auto 52px;
+    position: relative; z-index: 2;
+}
+
+/* SUCCESS CARD */
+.success-card {
+    background: white; border-radius: 28px;
+    box-shadow: 0 20px 60px rgba(37,99,235,0.15);
+    border: 1px solid #e6f0ff;
+    overflow: hidden;
+    animation: popIn 0.6s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+
+@keyframes popIn {
+    from { opacity:0; transform: scale(0.88) translateY(24px); }
+    to   { opacity:1; transform: scale(1) translateY(0); }
+}
+
+/* TOP GREEN BANNER */
+.success-banner {
+    background: linear-gradient(135deg, #16a34a, #22c55e);
+    padding: 36px 32px;
+    text-align: center;
+    position: relative; overflow: hidden;
+}
+.success-banner::before {
+    content:""; position:absolute; width:200px; height:200px;
+    border-radius:50%; background:rgba(255,255,255,0.08);
+    top:-60px; right:-60px;
+}
+.checkmark-wrap {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    border: 3px solid rgba(255,255,255,0.5);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px;
+    animation: scaleIn 0.5s 0.3s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+@keyframes scaleIn {
+    from { transform: scale(0); } to { transform: scale(1); }
+}
+.checkmark-wrap svg { width: 40px; height: 40px; }
+.checkmark-wrap svg path {
+    stroke: white; stroke-width: 3; fill: none;
+    stroke-dasharray: 60; stroke-dashoffset: 60;
+    animation: drawCheck 0.5s 0.6s ease forwards;
+}
+@keyframes drawCheck { to { stroke-dashoffset: 0; } }
+.success-banner h2 { color: white; font-size: 24px; font-weight: 800; margin: 0 0 6px; }
+.success-banner p  { color: rgba(255,255,255,0.85); font-size: 14px; margin: 0; }
+
+/* BODY */
+.card-body { padding: 28px 32px; }
+
+/* INFO ROWS */
+.info-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 14px; margin-bottom: 24px;
+}
+.info-item {
+    background: #f8fbff; border: 1px solid #e8f0ff;
+    border-radius: 16px; padding: 16px 18px;
+}
+.info-item .label {
+    font-size: 11px; font-weight: 700; color: #64748b;
+    text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px;
+}
+.info-item .value {
+    font-size: 15px; font-weight: 700; color: #1e3a8a;
+    display: flex; align-items: center; gap: 6px;
+}
+.info-item.full { grid-column: 1/-1; }
+
+/* NOTICE */
+.notice {
+    background: #fffbeb; border: 1px solid #fde68a;
+    border-radius: 16px; padding: 16px 18px;
+    display: flex; gap: 12px; align-items: flex-start;
+    margin-bottom: 24px;
+}
+.notice .icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+.notice p { margin: 0; font-size: 13.5px; color: #92400e; line-height: 1.7; }
+.notice strong { color: #78350f; }
+
+/* COUNTDOWN */
+.countdown-wrap {
+    text-align: center; margin-bottom: 20px;
+    font-size: 13px; color: #94a3b8;
+}
+.countdown-wrap span { font-weight: 700; color: #3b82f6; font-size: 15px; }
+
+/* BUTTONS */
+.btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-primary {
+    flex: 1; padding: 13px 20px; border-radius: 14px; border: none;
+    background: linear-gradient(90deg, #3b82f6, #2563eb);
+    color: white; font-family: inherit; font-weight: 700; font-size: 14px;
+    cursor: pointer; text-decoration: none; text-align: center;
+    transition: 0.25s; box-shadow: 0 6px 18px rgba(59,130,246,0.25);
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(59,130,246,0.32); }
+.btn-outline {
+    padding: 13px 20px; border-radius: 14px; border: 1.5px solid #3b82f6;
+    background: white; color: #2563eb; font-family: inherit;
+    font-weight: 700; font-size: 14px; cursor: pointer;
+    text-decoration: none; text-align: center; transition: 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.btn-outline:hover { background: #eff6ff; }
+
+@media (max-width: 600px) {
+    .page-wrap { width: 92%; }
+    .info-grid { grid-template-columns: 1fr; }
+    .card-body { padding: 20px; }
+    .btn-row { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<section class="hero">
+    <h1>Đặt lịch tư vấn</h1>
+    <p>Theo dõi trạng thái lịch hẹn của bạn tại mục "Lịch hẹn" trên thanh menu.</p>
+</section>
+
+<div class="page-wrap">
+    <div class="success-card">
+
+        <!-- Green banner -->
+        <div class="success-banner">
+            <div class="checkmark-wrap">
+                <svg viewBox="0 0 50 50">
+                    <path d="M12 25 L22 35 L38 17" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <h2>Đặt lịch thành công!</h2>
+            <p>Yêu cầu của bạn đã được gửi đến cố vấn. Chờ xác nhận nhé!</p>
+        </div>
+
+        <!-- Body -->
+        <div class="card-body">
+
+            <div class="info-grid" id="infoGrid">
+                <div class="info-item">
+                    <div class="label">👨‍🏫 Cố vấn</div>
+                    <div class="value" id="infoAdvisor">Đang tải...</div>
+                </div>
+                <div class="info-item">
+                    <div class="label">📅 Ngày hẹn</div>
+                    <div class="value" id="infoDate">—</div>
+                </div>
+                <div class="info-item">
+                    <div class="label">⏰ Khung giờ</div>
+                    <div class="value" id="infoTime">—</div>
+                </div>
+                <div class="info-item">
+                    <div class="label">📌 Trạng thái</div>
+                    <div class="value" style="color:#f97316">🕐 Chờ xác nhận</div>
+                </div>
+                <div class="info-item full">
+                    <div class="label">📚 Lĩnh vực tư vấn</div>
+                    <div class="value" id="infoTopic">—</div>
+                </div>
+            </div>
+
+            <div class="notice">
+                <div class="icon">💡</div>
+                <p>Cố vấn sẽ xác nhận lịch hẹn trong vòng <strong>24 giờ</strong>. Bạn có thể xem trạng thái lịch hẹn tại trang <strong>Lịch hẹn</strong>. Nếu cần hỗ trợ, hãy liên hệ hotline <strong>1800 2345 2202</strong>.</p>
+            </div>
+
+            <div class="countdown-wrap">
+                Tự động về trang chủ sau <span id="countdown">10</span> giây
+            </div>
+
+            <div class="btn-row">
+                <a href="schedule.html" class="btn-outline" id="viewMoreBtn">🔍 Đặt lịch khác</a>
+                <a href="index.html" class="btn-primary">🏠 Về trang chủ</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="site-footer"></div>
+<script src="components.js"></script>
+
+<script>
+// Lấy thông tin từ URL params (booking.html truyền sang)
+const p = new URLSearchParams(window.location.search);
+const advisorId = p.get('advisor_id') || '';
+const slotId    = p.get('slot_id')    || '';
+const topic     = p.get('topic')      || '';
+
+// Hiển thị topic
+if (topic) {
+    document.getElementById('infoTopic').textContent = decodeURIComponent(topic);
+}
+
+// Load advisor + slot info
+async function loadInfo() {
+    if (!advisorId) return;
+    try {
+        // Advisor
+        const resAdv = await fetch(`../BE/get_advisors.php?action=detail&id=${advisorId}`);
+        const adv    = await resAdv.json();
+        if (adv && !adv.error) {
+            document.getElementById('infoAdvisor').textContent = adv.full_name;
+        }
+
+        // Slot
+        if (slotId) {
+            const resSlots = await fetch(`../BE/get_slots.php?advisor_id=${advisorId}`);
+            // Lưu ý: sau khi đặt thành công slot đã bị mark booked nên sẽ không còn trong list
+            // Ta dùng info đã lưu trong sessionStorage từ booking.html
+        }
+    } catch { /* silent */ }
+
+    // Fallback: lấy từ sessionStorage nếu booking.html đã lưu
+    const saved = sessionStorage.getItem('lastBooking');
+    if (saved) {
+        const info = JSON.parse(saved);
+        if (info.advisorName) document.getElementById('infoAdvisor').textContent = info.advisorName;
+        if (info.date)        document.getElementById('infoDate').textContent    = info.date;
+        if (info.time)        document.getElementById('infoTime').textContent    = info.time;
+        if (info.topic)       document.getElementById('infoTopic').textContent   = info.topic;
+        sessionStorage.removeItem('lastBooking'); // dọn sau khi dùng
+    }
+}
+
+// Countdown về trang chủ
+let sec = 10;
+const countEl = document.getElementById('countdown');
+const timer = setInterval(() => {
+    sec--;
+    countEl.textContent = sec;
+    if (sec <= 0) {
+        clearInterval(timer);
+        window.location.href = 'index.html';
+    }
+}, 1000);
+
+document.addEventListener('DOMContentLoaded', loadInfo);
+</script>
+</body>
+</html>

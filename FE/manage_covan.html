@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý cố vấn - EduConsult</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --admin-dark: #0f172a; --admin-sidebar: #1e293b; --accent: #3b82f6;
+            --accent-gold: #f59e0b; --sidebar-text: #cbd5e1; --header-height: 70px;
+        }
+        body { background: #f1f5f9; margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; color: #1e293b; overflow-x: hidden; }
+
+        /* --- UI COMPONENTS ĐỒNG BỘ --- */
+        .admin-header {
+            background: var(--admin-dark); height: var(--header-height);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 30px; position: fixed; width: 100%; top: 0; z-index: 1000; box-sizing: border-box;
+        }
+        .logo { color: white; font-size: 20px; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+        .admin-badge { background: var(--accent-gold); color: #000; font-size: 10px; padding: 2px 8px; border-radius: 4px; font-weight: 800; }
+        .header-right { display: flex; align-items: center; gap: 20px; color: white; font-size: 14px; }
+        .btn-logout { background: #ef4444; color: white; border: none; padding: 8px 18px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+
+        .container { display: flex; margin-top: var(--header-height); min-height: calc(100vh - var(--header-height)); }
+
+        .sidebar { width: 260px; background: var(--admin-sidebar); color: white; padding: 25px 15px; position: fixed; height: 100%; box-sizing: border-box; }
+        .sidebar-label { font-size: 11px; text-transform: uppercase; color: #64748b; letter-spacing: 1.5px; margin: 25px 0 12px 15px; font-weight: 700; }
+        .sidebar a { display: flex; align-items: center; padding: 12px 18px; margin-bottom: 4px; border-radius: 10px; color: var(--sidebar-text); text-decoration: none; font-weight: 500; font-size: 14px; transition: 0.2s; gap: 12px; }
+        .sidebar a:hover { background: rgba(255,255,255,0.05); color: white; }
+        .sidebar a.active { background: var(--accent); color: white; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); }
+
+        /* --- MAIN CONTENT --- */
+        .main { flex: 1; margin-left: 260px; padding: 40px; box-sizing: border-box; }
+        .content-card { background: white; padding: 35px; border-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); min-height: 60vh; }
+
+        /* --- GRID CỐ VẤN --- */
+        .grid-covan { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 25px; 
+        }
+
+        .card-covan { 
+            background: #fff; 
+            padding: 30px; 
+            border-radius: 20px; 
+            text-align: center; 
+            border: 1px solid #f1f5f9;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-covan:hover { 
+            transform: translateY(-8px); 
+            box-shadow: 0 15px 30px rgba(15, 23, 42, 0.08);
+            border-color: var(--accent);
+        }
+
+        .avatar { 
+            width: 80px; height: 80px; 
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); 
+            border-radius: 50%; 
+            margin: 0 auto 20px; 
+            display: flex; align-items: center; justify-content: center; 
+            font-size: 28px; font-weight: 800; color: var(--accent); 
+            text-transform: uppercase;
+            border: 3px solid white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .card-covan h3 { margin: 0; font-size: 18px; color: #1e293b; font-weight: 700; }
+        .card-covan .specialty { color: var(--accent); font-size: 13px; font-weight: 700; margin-top: 5px; display: block; }
+
+        .card-covan p {
+            color: #64748b; font-size: 14px; margin: 15px 0; line-height: 1.6;
+            display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; height: 4.5em; 
+        }
+
+        .view-btn {
+            width: 100%; padding: 12px; border-radius: 12px; border: 1.5px solid #e2e8f0;
+            background: white; cursor: pointer; font-weight: 700; font-family: inherit;
+            transition: 0.2s; color: #475569;
+        }
+
+        .view-btn:hover { background: var(--accent); color: white; border-color: var(--accent); }
+
+        /* --- MODAL --- */
+        .modal { display: none; position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(5px); }
+        .modal-content { background: white; width: 500px; margin: 60px auto; padding: 40px; border-radius: 28px; position: relative; animation: slideIn 0.3s ease; }
+        @keyframes slideIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        .close-modal { position: absolute; top: 20px; right: 25px; font-size: 24px; cursor: pointer; color: #94a3b8; }
+    </style>
+</head>
+<body>
+
+    <header class="admin-header">
+        <a href="admin.html" class="logo">🎓 EduConsult <span class="admin-badge">ADMIN PANEL</span></a>
+        <div class="header-right">
+            <div>Admin <small style="display:block; font-size:10px; opacity:0.7;">Quản trị hệ thống</small></div>
+            <button class="btn-logout" id="btn-logout">Đăng xuất</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-label">Hệ thống</div>
+            <a href="admin.html"><span></span> Tổng quan</a>
+            <div class="sidebar-label">Quản lý chính</div>
+            <a href="manage_schedule.html"><span></span> Lịch hẹn</a>
+            <a href="manage_covan.html" class="active"><span></span> Cố vấn</a>
+            <a href="students.html"><span></span> Sinh viên</a>
+        </div>
+
+        <div class="main">
+            <h1 style="margin: 0 0 10px 0; font-size: 26px; font-weight: 800;">Đội ngũ cố vấn</h1>
+            <p style="color: #64748b; margin-bottom: 30px;">Quản lý thông tin và hồ sơ các chuyên gia tư vấn trong hệ thống.</p>
+            
+            <div class="content-card">
+                <div class="grid-covan" id="advisor-grid">
+                    <p style="color: #64748b; grid-column: 1/-1; text-align: center; padding: 50px;">Đang tải danh sách cố vấn...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div id="modalBody" style="text-align: center;">
+                </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            loadAdvisors();
+            document.getElementById('btn-logout').onclick = () => {
+                if(confirm('Xác nhận đăng xuất?')) window.location.href = '../BE/logout.php';
+            };
+        });
+
+        async function loadAdvisors() {
+            const grid = document.getElementById('advisor-grid');
+            try {
+                const response = await fetch('../BE/get_advisors_admin.php');
+                const advisors = await response.json();
+
+                if (advisors.error) {
+                    grid.innerHTML = `<p style="color:red; grid-column: 1/-1; text-align:center;">Lỗi: ${advisors.error}</p>`;
+                    return;
+                }
+
+                grid.innerHTML = '';
+                advisors.forEach(adv => {
+                    const initial = adv.full_name ? adv.full_name.charAt(0).toUpperCase() : '?';
+                    const card = `
+                        <div class="card-covan">
+                            <div class="avatar">${initial}</div>
+                            <h3>${adv.full_name}</h3>
+                            <span class="specialty">${adv.specialization || 'Chuyên gia tư vấn'}</span>
+                            <p>${adv.description || 'Chưa có mô tả chi tiết cho cố vấn này.'}</p>
+                            <button class="view-btn" onclick='viewProfile(${JSON.stringify(adv)})'>Xem hồ sơ</button>
+                        </div>
+                    `;
+                    grid.insertAdjacentHTML('beforeend', card);
+                });
+            } catch (error) {
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center;">Không thể kết nối đến máy chủ.</p>';
+            }
+        }
+
+        function viewProfile(adv) {
+            const modal = document.getElementById('profileModal');
+            const body = document.getElementById('modalBody');
+            const initial = adv.full_name.charAt(0).toUpperCase();
+
+            body.innerHTML = `
+                <div class="avatar" style="width:100px; height:100px; font-size:40px; margin-bottom:15px;">${initial}</div>
+                <h2 style="margin:0; font-size:24px;">${adv.full_name}</h2>
+                <p style="color:var(--accent); font-weight:700; margin:10px 0;">${adv.specialization || 'Cố vấn học tập'}</p>
+                <hr style="border:0; border-top:1px solid #f1f5f9; margin:20px 0;">
+                <div style="text-align: left; color:#475569; font-size:15px; line-height:1.7;">
+                    <strong>Giới thiệu:</strong><br>
+                    ${adv.description || 'Đang cập nhật...'}
+                </div>
+                <button class="view-btn" style="margin-top:30px; background:var(--admin-dark); color:white;" onclick="closeModal()">Đóng</button>
+            `;
+            modal.style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById('profileModal').style.display = "none";
+        }
+
+        window.onclick = (e) => {
+            if(e.target.className === 'modal') closeModal();
+        }
+    </script>
+</body>
+</html>

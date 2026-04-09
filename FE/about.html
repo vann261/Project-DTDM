@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Về chúng tôi – EduConsult</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; }
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: linear-gradient(180deg, #eef6ff, #f8fbff);
+    margin: 0; color: #1e3a8a;
+}
+
+/* ── HERO ── */
+.hero {
+    background: linear-gradient(135deg, #3b82f6, #2563eb 55%, #1d4ed8);
+    color: white; padding: 72px 10% 100px;
+    position: relative; overflow: hidden; text-align: center;
+}
+.hero::before {
+    content:''; position:absolute; width:320px; height:320px;
+    border-radius:50%; background:#93c5fd; filter:blur(60px);
+    opacity:0.2; top:-80px; right:80px; pointer-events:none;
+}
+.hero::after {
+    content:''; position:absolute; width:240px; height:240px;
+    border-radius:50%; background:#dbeafe; filter:blur(50px);
+    opacity:0.18; bottom:-60px; left:10%; pointer-events:none;
+}
+.hero-tag {
+    display: inline-block; position: relative; z-index:1;
+    background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 999px; padding: 6px 18px;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #dbeafe; margin-bottom: 20px;
+}
+.hero h1 {
+    position: relative; z-index:1;
+    font-size: clamp(36px, 5vw, 58px); font-weight: 800;
+    letter-spacing: -0.03em; margin: 0 0 16px; line-height: 1.2;
+}
+.hero h1 span { color: #93c5fd; }
+.hero p {
+    position: relative; z-index:1;
+    font-size: 17px; font-weight: 300; color: #e0eeff;
+    line-height: 1.8; max-width: 600px; margin: 0 auto;
+}
+
+/* ── STATS STRIP ── */
+.stats-strip {
+    width: min(1100px, 84%);
+    margin: -44px auto 0;
+    position: relative; z-index: 2;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+}
+.stat-box {
+    background: white; border-radius: 22px; padding: 24px 20px;
+    border: 1px solid #e6f0ff; text-align: center;
+    box-shadow: 0 12px 32px rgba(37,99,235,0.10);
+    animation: fadeUp 0.6s ease both;
+}
+.stat-box:nth-child(1) { animation-delay: 0.05s; }
+.stat-box:nth-child(2) { animation-delay: 0.12s; }
+.stat-box:nth-child(3) { animation-delay: 0.19s; }
+.stat-box:nth-child(4) { animation-delay: 0.26s; }
+.stat-num  { font-size: 36px; font-weight: 800; color: #2563eb; line-height: 1; }
+.stat-unit { font-size: 18px; font-weight: 700; color: #93c5fd; }
+.stat-label{ font-size: 13px; color: #64748b; margin-top: 6px; font-weight: 500; }
+
+/* ── MAIN WRAP ── */
+.page-wrap {
+    width: min(1100px, 84%);
+    margin: 48px auto 64px;
+    display: flex; flex-direction: column; gap: 24px;
+}
+
+/* ── CARD ── */
+.card {
+    background: white; border-radius: 28px; padding: 40px 44px;
+    border: 1px solid #e6f0ff;
+    box-shadow: 0 12px 36px rgba(37,99,235,0.08);
+    animation: fadeUp 0.6s ease both;
+}
+.card-tag {
+    display: inline-block; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: #2563eb; background: #eff6ff; border: 1px solid #dbeafe;
+    border-radius: 999px; padding: 4px 14px; margin-bottom: 14px;
+}
+.card h2 {
+    font-size: 28px; font-weight: 800; color: #1e3a8a;
+    margin: 0 0 14px; letter-spacing: -0.02em;
+}
+.card p { font-size: 15px; color: #475569; line-height: 1.85; margin: 0; }
+
+/* ── MISSION GRID ── */
+.mission-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+}
+.mission-item {
+    background: linear-gradient(135deg, #f8fbff, #eff6ff);
+    border: 1px solid #dbeafe; border-radius: 20px; padding: 26px 22px;
+    transition: 0.25s;
+}
+.mission-item:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(37,99,235,0.12); border-color: #93c5fd; }
+.mission-icon { font-size: 32px; margin-bottom: 12px; }
+.mission-item h3 { font-size: 16px; font-weight: 800; color: #1e40af; margin: 0 0 10px; }
+.mission-item p  { font-size: 13.5px; color: #475569; line-height: 1.75; margin: 0; }
+
+/* ── TEAM GRID ── */
+.team-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+}
+.team-card {
+    background: #f8fbff; border: 1px solid #e6f0ff;
+    border-radius: 20px; padding: 28px 20px; text-align: center;
+    transition: 0.25s;
+}
+.team-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(37,99,235,0.10); border-color: #bfdbfe; }
+.team-avatar {
+    width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 14px;
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; border: 4px solid #dbeafe;
+}
+.team-name  { font-size: 15px; font-weight: 800; color: #1e3a8a; margin-bottom: 4px; }
+.team-role  { font-size: 12px; font-weight: 600; color: #2563eb; background: #eff6ff; border: 1px solid #dbeafe; border-radius: 999px; padding: 3px 12px; display: inline-block; margin-bottom: 10px; }
+.team-desc  { font-size: 13px; color: #64748b; line-height: 1.7; }
+
+/* ── TECH SECTION ── */
+.tech-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+    margin-top: 24px;
+}
+.tech-item {
+    background: #f8fbff; border: 1px solid #dbeafe;
+    border-radius: 16px; padding: 20px 16px; text-align: center;
+    transition: 0.2s;
+}
+.tech-item:hover { background: #eff6ff; border-color: #93c5fd; transform: translateY(-2px); }
+.tech-icon  { font-size: 28px; margin-bottom: 10px; }
+.tech-name  { font-size: 13px; font-weight: 700; color: #1e3a8a; margin-bottom: 4px; }
+.tech-desc  { font-size: 12px; color: #64748b; }
+
+/* ── CONTACT ── */
+.contact-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+    margin-top: 24px;
+}
+.contact-item {
+    display: flex; align-items: flex-start; gap: 14px;
+    background: #f8fbff; border: 1px solid #e6f0ff;
+    border-radius: 16px; padding: 20px;
+}
+.contact-icon {
+    width: 42px; height: 42px; border-radius: 12px; flex-shrink: 0;
+    background: linear-gradient(135deg, #eff6ff, #dbeafe);
+    border: 1px solid #bfdbfe;
+    display: flex; align-items: center; justify-content: center; font-size: 18px;
+}
+.contact-label { font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+.contact-value { font-size: 14px; font-weight: 700; color: #1e3a8a; line-height: 1.5; }
+
+/* ── CTA ── */
+.cta-card {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    border-radius: 28px; padding: 48px 44px;
+    text-align: center; color: white;
+    position: relative; overflow: hidden;
+    box-shadow: 0 16px 48px rgba(37,99,235,0.28);
+}
+.cta-card::before {
+    content:''; position:absolute; width:260px; height:260px;
+    border-radius:50%; background:rgba(255,255,255,0.06);
+    top:-80px; right:-60px;
+}
+.cta-card::after {
+    content:''; position:absolute; width:180px; height:180px;
+    border-radius:50%; background:rgba(255,255,255,0.05);
+    bottom:-50px; left:60px;
+}
+.cta-card h2 { font-size: 30px; font-weight: 800; margin: 0 0 12px; position: relative; z-index:1; }
+.cta-card p  { font-size: 15px; color: #dbeafe; margin: 0 0 28px; position: relative; z-index:1; }
+.cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; position: relative; z-index:1; }
+.btn-white {
+    padding: 14px 28px; border-radius: 14px; font-family: inherit;
+    font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.2s;
+    background: white; color: #2563eb; border: none;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15); text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-white:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0,0,0,0.2); }
+.btn-ghost {
+    padding: 14px 28px; border-radius: 14px; font-family: inherit;
+    font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.2s;
+    background: rgba(255,255,255,0.12); color: white;
+    border: 1.5px solid rgba(255,255,255,0.3); text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-ghost:hover { background: rgba(255,255,255,0.2); }
+
+@keyframes fadeUp {
+    from { opacity:0; transform:translateY(24px); }
+    to   { opacity:1; transform:translateY(0); }
+}
+
+@media (max-width: 900px) {
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .mission-grid { grid-template-columns: 1fr; }
+    .team-grid    { grid-template-columns: repeat(2, 1fr); }
+    .tech-grid    { grid-template-columns: repeat(2, 1fr); }
+    .contact-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+    .hero { padding: 54px 5% 80px; }
+    .page-wrap { width: 92%; }
+    .card { padding: 26px 22px; }
+    .stats-strip { width: 92%; grid-template-columns: repeat(2, 1fr); }
+    .team-grid { grid-template-columns: 1fr; }
+    .cta-card { padding: 36px 24px; }
+    .cta-btns { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-tag">✦ Về EduConsult</div>
+    <h1>Sứ mệnh kết nối<br><span>tri thức & tương lai</span></h1>
+    <p>Nền tảng tư vấn học tập trực tuyến, giúp sinh viên kết nối với cố vấn giàu kinh nghiệm — nhanh chóng, tiện lợi và bảo mật trên Azure Cloud.</p>
+</section>
+
+<!-- STATS STRIP -->
+<div class="stats-strip">
+    <div class="stat-box">
+        <div class="stat-num">24<span class="stat-unit">+</span></div>
+        <div class="stat-label">Cố vấn & Giảng viên</div>
+    </div>
+    <div class="stat-box">
+        <div class="stat-num">500<span class="stat-unit">+</span></div>
+        <div class="stat-label">Sinh viên đã tư vấn</div>
+    </div>
+    <div class="stat-box">
+        <div class="stat-num">4.8<span class="stat-unit">★</span></div>
+        <div class="stat-label">Đánh giá trung bình</div>
+    </div>
+    <div class="stat-box">
+        <div class="stat-num">99<span class="stat-unit">%</span></div>
+        <div class="stat-label">Uptime hệ thống</div>
+    </div>
+</div>
+
+<div class="page-wrap">
+
+    <!-- GIỚI THIỆU -->
+    <div class="card" style="animation-delay:0.1s">
+        <div class="card-tag">✦ Câu chuyện của chúng tôi</div>
+        <h2>EduConsult ra đời như thế nào?</h2>
+        <p>EduConsult ra đời trong bối cảnh chuyển đổi số giáo dục đang diễn ra mạnh mẽ. Chúng tôi hiểu rằng mỗi sinh viên đều cần một người dẫn đường tận tâm — nhưng rào cản về thời gian, địa điểm và thông tin khiến nhiều bạn không tiếp cận được cố vấn phù hợp. EduConsult xây dựng để xóa bỏ những rào cản đó, tạo ra môi trường kết nối minh bạch, chuyên nghiệp và nhanh chóng giữa sinh viên với các chuyên gia đầu ngành.</p>
+    </div>
+
+    <!-- SỨ MỆNH -->
+    <div class="card" style="animation-delay:0.18s">
+        <div class="card-tag">✦ Mục tiêu & Tầm nhìn</div>
+        <h2>Những gì chúng tôi hướng đến</h2>
+        <div class="mission-grid" style="margin-top:24px">
+            <div class="mission-item">
+                <div class="mission-icon"></div>
+                <h3>Mục tiêu</h3>
+                <p>Xây dựng môi trường đặt lịch tư vấn chuyên nghiệp, minh bạch và nhanh chóng cho sinh viên trong hệ sinh thái đại học.</p>
+            </div>
+            <div class="mission-item">
+                <div class="mission-icon"></div>
+                <h3>Giải pháp</h3>
+                <p>Ứng dụng điện toán đám mây Azure để quản lý dữ liệu lịch hẹn, hồ sơ cố vấn và tiến trình học tập theo thời gian thực.</p>
+            </div>
+            <div class="mission-item">
+                <div class="mission-icon"></div>
+                <h3>Tầm nhìn</h3>
+                <p>Trở thành nền tảng hỗ trợ học tập hàng đầu, nơi mọi thắc mắc về lộ trình nghề nghiệp đều được giải đáp kịp thời.</p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- LIÊN HỆ -->
+    <div class="card" style="animation-delay:0.36s">
+        <div class="card-tag">✦ Liên hệ</div>
+        <h2>Kết nối với chúng tôi</h2>
+        <div class="contact-grid">
+            <div class="contact-item">
+                <div>
+                    <div class="contact-label">Địa chỉ</div>
+                    <div class="contact-value">123 Nguyễn Văn Linh, Quận 7, TP. Hồ Chí Minh</div>
+                </div>
+            </div>
+            <div class="contact-item">
+                <div>
+                    <div class="contact-label">Hotline</div>
+                    <div class="contact-value">1800 2345 2202<br><span style="font-size:12px;font-weight:400;color:#64748b">Miễn phí · 8:00–22:00</span></div>
+                </div>
+            </div>
+            <div class="contact-item">
+                <div>
+                    <div class="contact-label">Email</div>
+                    <div class="contact-value">hotro@educonsult.vn</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-card" style="animation-delay:0.42s">
+        <h2>Sẵn sàng bắt đầu hành trình học tập?</h2>
+        <p>Đăng ký miễn phí và kết nối với cố vấn phù hợp ngay hôm nay.</p>
+        <div class="cta-btns">
+            <a href="dangky.html"  class="btn-white">Đăng ký miễn phí</a>
+            <a href="covan.html"   class="btn-ghost">Xem danh sách cố vấn</a>
+        </div>
+    </div>
+
+</div>
+
+<div id="site-footer"></div>
+<script src="components.js"></script>
+
+</body>
+</html>

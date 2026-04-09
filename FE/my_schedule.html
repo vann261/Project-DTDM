@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lịch hẹn của tôi</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; }
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: linear-gradient(180deg, #eef6ff, #f8fbff);
+    margin: 0;
+    color: #1e3a8a;
+}
+
+.hero {
+    background: linear-gradient(135deg, #3b82f6, #2563eb 55%, #1d4ed8);
+    color: white;
+    padding: 54px 10% 42px;
+    position: relative;
+    overflow: hidden;
+}
+.hero::before {
+    content: ""; position: absolute; border-radius: 50%;
+    width: 240px; height: 240px; background: #93c5fd;
+    top: -70px; right: 110px; filter: blur(45px); opacity: 0.22;
+}
+.hero::after {
+    content: ""; position: absolute; border-radius: 50%;
+    width: 200px; height: 200px; background: #dbeafe;
+    bottom: -60px; left: 8%; filter: blur(45px); opacity: 0.22;
+}
+.hero h1 { position:relative; z-index:1; margin:0; font-size:clamp(30px,4vw,46px); font-weight:800; letter-spacing:-0.03em; }
+.hero p  { position:relative; z-index:1; margin:10px 0 0; font-size:15px; line-height:1.7; color:#e8f1ff; }
+
+.page-wrap {
+    width: min(1000px, 84%);
+    margin: -26px auto 52px;
+    position: relative; z-index: 2;
+}
+
+/* TABS */
+.tabs {
+    display: flex; gap: 8px; margin-bottom: 20px;
+    background: white; padding: 6px; border-radius: 16px;
+    border: 1px solid #e6f0ff;
+    box-shadow: 0 4px 16px rgba(37,99,235,0.07);
+}
+.tab {
+    flex: 1; padding: 10px; border-radius: 12px; border: none;
+    font-family: inherit; font-size: 13.5px; font-weight: 700;
+    cursor: pointer; transition: 0.2s; color: #64748b; background: transparent;
+}
+.tab.active { background: #3b82f6; color: white; box-shadow: 0 4px 12px rgba(59,130,246,0.3); }
+
+/* CARD */
+.appointment-card {
+    background: white; border-radius: 20px; padding: 20px 24px;
+    border: 1px solid #e6f0ff; margin-bottom: 14px;
+    box-shadow: 0 4px 16px rgba(37,99,235,0.06);
+    display: grid; grid-template-columns: 56px 1fr auto;
+    gap: 16px; align-items: center;
+    transition: 0.25s;
+}
+.appointment-card:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(37,99,235,0.12); }
+
+.advisor-avatar {
+    width: 56px; height: 56px; border-radius: 50%;
+    object-fit: cover; border: 3px solid #dbeafe;
+}
+
+.card-info { flex: 1; }
+.advisor-name { font-size: 16px; font-weight: 800; color: #1e3a8a; margin-bottom: 4px; }
+.advisor-tag  { font-size: 12px; font-weight: 600; color: #3b82f6; background: #eff6ff; padding: 3px 10px; border-radius: 20px; display: inline-block; margin-bottom: 8px; }
+.appt-detail  { font-size: 13px; color: #64748b; line-height: 1.8; }
+.appt-detail b { color: #1e3a8a; }
+
+.card-right { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+
+.badge {
+    font-size: 12px; font-weight: 700; padding: 5px 12px;
+    border-radius: 20px; white-space: nowrap;
+}
+.badge-pending   { background: #fef9c3; color: #854d0e; }
+.badge-confirmed { background: #dcfce7; color: #166534; }
+.badge-cancelled { background: #fee2e2; color: #991b1b; }
+
+.btn-cancel {
+    font-family: inherit; font-size: 12.5px; font-weight: 700;
+    padding: 8px 14px; border-radius: 10px; cursor: pointer;
+    border: 1.5px solid #fca5a5; color: #ef4444;
+    background: #fff0f0; transition: 0.2s;
+}
+.btn-cancel:hover { background: #fee2e2; }
+
+/* EMPTY */
+.empty {
+    text-align: center; padding: 52px 20px;
+    background: white; border-radius: 20px;
+    border: 1px solid #e6f0ff; color: #94a3b8;
+}
+.empty-icon { font-size: 48px; margin-bottom: 12px; }
+.empty p { font-size: 15px; margin: 0 0 20px; }
+.btn-primary {
+    display: inline-block; text-decoration: none;
+    background: #3b82f6; color: white;
+    padding: 12px 24px; border-radius: 12px;
+    font-weight: 700; font-size: 14px;
+    box-shadow: 0 4px 16px rgba(59,130,246,0.3);
+    transition: 0.2s;
+}
+.btn-primary:hover { background: #2563eb; transform: translateY(-2px); }
+
+/* TOAST */
+.toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    background: #1e3a8a; color: white; padding: 12px 24px;
+    border-radius: 12px; font-size: 14px; font-weight: 600;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2); z-index: 999;
+    display: none; animation: fadeUp 0.3s ease;
+}
+.toast.success { background: #16a34a; }
+.toast.error   { background: #dc2626; }
+
+@keyframes fadeUp {
+    from { opacity:0; transform: translateY(16px) translateX(-50%); }
+    to   { opacity:1; transform: translateY(0)    translateX(-50%); }
+}
+
+@media (max-width: 640px) {
+    .appointment-card { grid-template-columns: 1fr; }
+    .card-right { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
+    .page-wrap { width: 92%; }
+}
+</style>
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<section class="hero">
+    <h1>Lịch hẹn của tôi</h1>
+    <p>Xem và quản lý các lịch tư vấn bạn đã đặt với cố vấn học tập.</p>
+</section>
+
+<div class="page-wrap">
+    <!-- TABS lọc theo trạng thái -->
+    <div class="tabs">
+        <button class="tab active" onclick="filterTab('all',   this)">Tất cả</button>
+        <button class="tab"        onclick="filterTab('pending',   this)">Chờ xác nhận</button>
+        <button class="tab"        onclick="filterTab('confirmed', this)">Đã xác nhận</button>
+        <button class="tab"        onclick="filterTab('cancelled', this)">Đã hủy</button>
+    </div>
+
+    <div id="list-container"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div id="site-footer"></div>
+<script src="components.js"></script>
+
+<script>
+let allAppointments = [];
+
+// Load lịch từ DB
+async function loadAppointments() {
+    try {
+        const res  = await fetch('../BE/get_my_appointments.php');
+        const data = await res.json();
+
+        if (data.error) {
+            window.location.href = 'dangnhap.html?redirect=' + encodeURIComponent(window.location.href);
+            return;
+        }
+
+        allAppointments = data;
+        renderList(allAppointments);
+    } catch {
+        document.getElementById('list-container').innerHTML =
+            '<p style="color:#ef4444;text-align:center">Không thể tải dữ liệu.</p>';
+    }
+}
+
+// Render danh sách
+function renderList(list) {
+    const container = document.getElementById('list-container');
+
+    if (list.length === 0) {
+        container.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">📭</div>
+                <p>Bạn chưa có lịch hẹn nào.</p>
+                <a href="covan.html" class="btn-primary">Đặt lịch ngay →</a>
+            </div>`;
+        return;
+    }
+
+    const badgeClass = { pending: 'badge-pending', confirmed: 'badge-confirmed', cancelled: 'badge-cancelled' };
+
+    container.innerHTML = list.map(ap => `
+        <div class="appointment-card" id="card-${ap.appointment_id}">
+            <img class="advisor-avatar"
+                 src="${ap.advisor_avatar || ''}"
+                 alt="${ap.advisor_name}"
+                 onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(ap.advisor_name)}&background=dbeafe&color=1d4ed8&size=128&bold=true'">
+            <div class="card-info">
+                <div class="advisor-name">${ap.advisor_name}</div>
+                <div class="advisor-tag">${ap.advisor_tag}</div>
+                <div class="appt-detail">
+                    <b>${ap.date_label}</b> &nbsp;·&nbsp;
+                    <b>${ap.start_time} – ${ap.end_time}</b><br>
+                    ${ap.topic}
+                </div>
+            </div>
+            <div class="card-right">
+                <span class="badge ${badgeClass[ap.status]}">${ap.status_label}</span>
+                ${ap.status !== 'cancelled'
+                    ? `<button class="btn-cancel" onclick="cancelAppointment(${ap.appointment_id})">Hủy lịch</button>`
+                    : ''}
+            </div>
+        </div>
+    `).join('');
+}
+
+// Lọc theo tab
+function filterTab(status, el) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    const filtered = status === 'all' ? allAppointments : allAppointments.filter(a => a.status === status);
+    renderList(filtered);
+}
+
+// Hủy lịch
+async function cancelAppointment(id) {
+    if (!confirm('Bạn có chắc muốn hủy lịch hẹn này không?')) return;
+
+    const fd = new FormData();
+    fd.append('appointment_id', id);
+
+    try {
+        const res  = await fetch('../BE/cancel_appointment.php', { method: 'POST', body: fd });
+        const data = await res.json();
+
+        showToast(data.message, data.success ? 'success' : 'error');
+
+        if (data.success) {
+            // Cập nhật lại local data thay vì reload cả trang
+            const ap = allAppointments.find(a => a.appointment_id === id);
+            if (ap) { ap.status = 'cancelled'; ap.status_label = 'Đã hủy'; }
+            renderList(allAppointments);
+        }
+    } catch {
+        showToast('Không thể kết nối máy chủ.', 'error');
+    }
+}
+
+// Toast thông báo
+function showToast(msg, type = '') {
+    const toast = document.getElementById('toast');
+    toast.textContent   = msg;
+    toast.className     = 'toast ' + type;
+    toast.style.display = 'block';
+    setTimeout(() => { toast.style.display = 'none'; }, 3000);
+}
+
+document.addEventListener('DOMContentLoaded', loadAppointments);
+</script>
+</body>
+</html>

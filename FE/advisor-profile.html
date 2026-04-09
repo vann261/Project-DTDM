@@ -9,306 +9,33 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-* {
-    box-sizing: border-box;
-}
-
-    body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    background: linear-gradient(180deg, #eef6ff, #f8fbff);
-    margin: 0;
-    color: #1e3a8a;
-}
-
-/* HERO */
-.hero {
-    background: linear-gradient(135deg, #3b82f6, #2563eb 55%, #1d4ed8);
-    color: white;
-    padding: 54px 10% 42px;
-    position: relative;
-    overflow: hidden;
-}
-
-.hero::before,
-.hero::after {
-    content: "";
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(45px);
-    opacity: 0.22;
-}
-
-.hero::before {
-    width: 240px;
-    height: 240px;
-    background: #93c5fd;
-    top: -70px;
-    right: 110px;
-}
-
-.hero::after {
-    width: 200px;
-    height: 200px;
-    background: #dbeafe;
-    bottom: -60px;
-    left: 8%;
-}
-
-.hero-back {
-    position: relative;
-    z-index: 1;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: #dbeafe;
-    text-decoration: none;
-    font-size: 14px;
-    margin-bottom: 14px;
-}
-
-.hero-back:hover {
-    color: white;
-}
-
-.hero h1 {
-    position: relative;
-    z-index: 1;
-    margin: 0;
-    font-size: clamp(30px, 4vw, 46px);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-}
-
-.hero p {
-    position: relative;
-    z-index: 1;
-    margin: 10px 0 0;
-    max-width: 760px;
-    font-size: 15px;
-    line-height: 1.7;
-    color: #e8f1ff;
-}
-
-/* PROFILE */
-.profile-wrap {
-    width: min(1100px, 82%);
-    margin: -26px auto 52px;
-    position: relative;
-    z-index: 2;
-}
-
-.profile {
-    background: white;
-    border-radius: 28px;
-    padding: 34px;
-    box-shadow: 0 20px 45px rgba(37, 99, 235, 0.12);
-    border: 1px solid #e6f0ff;
-    animation: fadeUp 0.7s ease;
-}
-
-/* TOP */
-.top {
-    display: flex;
-    gap: 28px;
-    align-items: center;
-    padding-bottom: 26px;
-    border-bottom: 1px solid #edf3ff;
-}
-
-.top img {
-    width: 148px;
-    height: 148px;
-    border-radius: 50%;
-    border: 5px solid #dbeafe;
-    object-fit: cover;
-    transition: 0.3s ease;
-    background: #f8fbff;
-}
-
-.top img:hover {
-    transform: scale(1.05);
-    box-shadow: 0 12px 28px rgba(59,130,246,0.22);
-}
-
-/* META */
-.name {
-    font-size: 31px;
-    font-weight: 800;
-    color: #1e3a8a;
-    line-height: 1.3;
-}
-
-.tag {
-    background: #e0edff;
-    color: #2563eb;
-    padding: 7px 16px;
-    border-radius: 999px;
-    display: inline-block;
-    margin-top: 10px;
-    font-size: 13px;
-    font-weight: 700;
-}
-
-.stats {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 18px;
-}
-
-.stat {
-    background: #f1f7ff;
-    padding: 11px 15px;
-    border-radius: 14px;
-    font-size: 13px;
-    font-weight: 600;
-    border: 1px solid #dbeafe;
-    color: #1e3a8a;
-}
-
-/* CONTENT */
-.content-grid {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: 26px;
-    margin-top: 28px;
-}
-
-.section {
-    background: #fcfdff;
-    border: 1px solid #edf3ff;
-    border-radius: 22px;
-    padding: 22px;
-}
-
-.section h3 {
-    margin: 0 0 12px;
-    color: #1e40af;
-    font-size: 18px;
-}
-
-.text {
-    color: #475569;
-    line-height: 1.8;
-    font-size: 14px;
-}
-
-/* SKILLS */
-.skills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.skill {
-    background: #e0edff;
-    padding: 8px 14px;
-    border-radius: 999px;
-    font-size: 13px;
-    font-weight: 700;
-    color: #1e40af;
-}
-
-/* ACTION BOX */
-.action-box {
-    margin-top: 24px;
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-}
-
-.btn {
-    text-decoration: none;
-    border: none;
-    border-radius: 14px;
-    padding: 12px 18px;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.25s ease;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.btn-primary {
-    background: linear-gradient(90deg, #3b82f6, #2563eb);
-    color: white;
-    box-shadow: 0 8px 20px rgba(59,130,246,0.22);
-}
-
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 24px rgba(59,130,246,0.28);
-}
-
-.btn-outline {
-    background: white;
-    color: #2563eb;
-    border: 1.5px solid #3b82f6;
-}
-
-.btn-outline:hover {
-    background: #eff6ff;
-}
-
-/* ACTIVE NAV */
-.site-header__nav a[data-page="covan"] {
-    background: rgba(255,255,255,0.14);
-    border-radius: 12px;
-    padding: 8px 14px;
-}
-
-/* ANIMATION */
-@keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(28px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* RESPONSIVE */
-@media (max-width: 900px) {
-    .content-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 768px) {
-    body {
-        padding-top: 76px;
-    }
-
-    .hero {
-        padding: 42px 5% 34px;
-    }
-
-    .profile-wrap {
-        width: 92%;
-    }
-
-    .profile {
-        padding: 22px;
-        border-radius: 22px;
-    }
-
-    .top {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .stats {
-        justify-content: center;
-    }
-
-    .name {
-        font-size: 26px;
-    }
-}
+/* ... (Giữ nguyên phần CSS của bạn vì nó đã đẹp rồi) ... */
+* { box-sizing: border-box; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; background: linear-gradient(180deg, #eef6ff, #f8fbff); margin: 0; color: #1e3a8a; }
+.hero { background: linear-gradient(135deg, #3b82f6, #2563eb 55%, #1d4ed8); color: white; padding: 54px 10% 42px; position: relative; overflow: hidden; }
+.hero-back { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 8px; color: #dbeafe; text-decoration: none; font-size: 14px; margin-bottom: 14px; }
+.hero h1 { position: relative; z-index: 1; margin: 0; font-size: clamp(30px, 4vw, 46px); font-weight: 800; letter-spacing: -0.03em; }
+.hero p { position: relative; z-index: 1; margin: 10px 0 0; max-width: 760px; font-size: 15px; line-height: 1.7; color: #e8f1ff; }
+.profile-wrap { width: min(1100px, 82%); margin: -26px auto 52px; position: relative; z-index: 2; }
+.profile { background: white; border-radius: 28px; padding: 34px; box-shadow: 0 20px 45px rgba(37, 99, 235, 0.12); border: 1px solid #e6f0ff; animation: fadeUp 0.7s ease; min-height: 300px; }
+.top { display: flex; gap: 28px; align-items: center; padding-bottom: 26px; border-bottom: 1px solid #edf3ff; }
+.top img { width: 148px; height: 148px; border-radius: 50%; border: 5px solid #dbeafe; object-fit: cover; background: #f8fbff; }
+.name { font-size: 31px; font-weight: 800; color: #1e3a8a; line-height: 1.3; }
+.tag { background: #e0edff; color: #2563eb; padding: 7px 16px; border-radius: 999px; display: inline-block; margin-top: 10px; font-size: 13px; font-weight: 700; }
+.stats { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
+.stat { background: #f1f7ff; padding: 11px 15px; border-radius: 14px; font-size: 13px; font-weight: 600; border: 1px solid #dbeafe; color: #1e3a8a; }
+.content-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 26px; margin-top: 28px; }
+.section { background: #fcfdff; border: 1px solid #edf3ff; border-radius: 22px; padding: 22px; }
+.section h3 { margin: 0 0 12px; color: #1e40af; font-size: 18px; }
+.text { color: #475569; line-height: 1.8; font-size: 14px; }
+.skills-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.skill-tag { background: #e0edff; color: #2563eb; padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 700; border: 1px solid #dbeafe; }
+.action-box { margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap; }
+.btn { text-decoration: none; border: none; border-radius: 14px; padding: 12px 18px; font-size: 14px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: 0.25s; }
+.btn-primary { background: linear-gradient(90deg, #3b82f6, #2563eb); color: white; }
+.btn-outline { background: white; color: #2563eb; border: 1.5px solid #3b82f6; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; } .top { flex-direction: column; text-align: center; } .stats { justify-content: center; } }
 </style>
 </head>
 
@@ -319,134 +46,84 @@
 <section class="hero">
     <a href="covan.html" class="hero-back">← Quay lại danh sách cố vấn</a>
     <h1>Hồ sơ cố vấn học tập</h1>
-    <p>Xem thông tin chi tiết, chuyên môn, kinh nghiệm và các kỹ năng nổi bật của cố vấn để chọn người phù hợp nhất cho lịch tư vấn của bạn.</p>
+    <p>Chi tiết chuyên môn và kinh nghiệm của cố vấn.</p>
 </section>
 
 <div class="profile-wrap">
-    <div class="profile" id="profile"></div>
+    <div class="profile" id="profile">
+        <p style="text-align:center;">Đang tải dữ liệu...</p>
+    </div>
 </div>
 
 <div id="site-footer"></div>
 <script src="components.js"></script>
 
 <script>
-const params = new URLSearchParams(window.location.search);
-const id = params.get("id");
+// 1. Lấy ID từ URL
+const urlParams = new URLSearchParams(window.location.search);
+const advisorId = urlParams.get('id');
 
-const data = {
-1: {
-    name: "TS. Nguyễn Văn An",
-    img: "https://i.pravatar.cc/150?img=1",
-    tag: "Điều khiển tự động",
-    rating: "4.9",
-    students: "156 sinh viên",
-    exp: "10+ năm kinh nghiệm",
-    desc: "Chuyên gia hàng đầu trong lĩnh vực IoT và hệ thống nhúng. Có kinh nghiệm triển khai các dự án nhà thông minh, điều khiển công nghiệp và ứng dụng tự động hóa trong môi trường học tập thực hành.",
-    subjects: "Hệ thống nhúng, IoT, Điều khiển PLC, Tự động hóa công nghiệp",
-    skills: ["IoT","Embedded","PLC","Automation"]
-},
-2: {
-    name: "ThS. Trần Thị Bình",
-    img: "https://i.pravatar.cc/150?img=2",
-    tag: "Cơ sở dữ liệu",
-    rating: "4.8",
-    students: "203 sinh viên",
-    exp: "8 năm kinh nghiệm",
-    desc: "Chuyên sâu về cơ sở dữ liệu, mô hình hóa dữ liệu và thiết kế hệ thống quản lý. Có kinh nghiệm với dữ liệu lớn và tối ưu truy vấn cho ứng dụng thực tế.",
-    subjects: "SQL, NoSQL, Data Modeling, Thiết kế cơ sở dữ liệu",
-    skills: ["MySQL","MongoDB","Database Design","SQL"]
-},
-3: {
-    name: "TS. Lê Minh Cường",
-    img: "https://i.pravatar.cc/150?img=3",
-    tag: "AI",
-    rating: "4.9",
-    students: "189 sinh viên",
-    exp: "12 năm kinh nghiệm",
-    desc: "Chuyên gia AI và Machine Learning, tập trung vào Deep Learning, Computer Vision và các bài toán nhận dạng thông minh trong giáo dục và công nghiệp.",
-    subjects: "Machine Learning, Deep Learning, Computer Vision",
-    skills: ["Python","TensorFlow","AI","Deep Learning"]
-},
-4: {
-    name: "ThS. Phạm Thu Hà",
-    img: "https://i.pravatar.cc/150?img=4",
-    tag: "Web",
-    rating: "4.7",
-    students: "142 sinh viên",
-    exp: "7 năm kinh nghiệm",
-    desc: "Fullstack developer với nhiều dự án thực tế về website và hệ thống quản trị. Hỗ trợ tốt cả frontend lẫn backend cho sinh viên làm đồ án.",
-    subjects: "HTML, CSS, JavaScript, PHP, React, NodeJS",
-    skills: ["React","NodeJS","PHP","Frontend"]
-},
-5: {
-    name: "TS. Hoàng Văn Dũng",
-    img: "https://i.pravatar.cc/150?img=5",
-    tag: "Bảo mật",
-    rating: "4.8",
-    students: "178 sinh viên",
-    exp: "11 năm kinh nghiệm",
-    desc: "Chuyên gia an ninh mạng, ethical hacking và kiểm thử xâm nhập. Có kinh nghiệm tư vấn bảo mật cho nhiều hệ thống web và mạng nội bộ.",
-    subjects: "Cyber Security, Ethical Hacking, Network Security",
-    skills: ["Security","PenTest","Networking","Ethical Hacking"]
-},
-6: {
-    name: "ThS. Vũ Thị Lan",
-    img: "https://i.pravatar.cc/150?img=6",
-    tag: "Data",
-    rating: "4.9",
-    students: "134 sinh viên",
-    exp: "9 năm kinh nghiệm",
-    desc: "Chuyên gia Data Science, phân tích dữ liệu và xây dựng mô hình học máy ứng dụng. Phù hợp với sinh viên làm bài toán phân tích và trực quan hóa dữ liệu.",
-    subjects: "Python, Data Science, Data Analysis, Machine Learning",
-    skills: ["Python","Pandas","ML","Data Science"]
-}
-};
+async function loadProfile() {
+    if (!advisorId) {
+        document.getElementById("profile").innerHTML = "<p>Không tìm thấy mã cố vấn!</p>";
+        return;
+    }
 
-const p = data[id] || data[1];
+    try {
+        const res = await fetch(`../BE/get_advisors.php?action=detail&id=${advisorId}`);
+        const p = await res.json();
+        
+        if(!p || p.error) {
+            document.getElementById("profile").innerHTML = "<p>Cố vấn không tồn tại!</p>";
+            return;
+        }
 
-document.getElementById("profile").innerHTML = `
-<div class="top">
-    <img src="${p.img}" alt="${p.name}">
-    <div>
-        <div class="name">${p.name}</div>
-        <div class="tag">${p.tag}</div>
+        // Xử lý biến kỹ năng: Nếu là chuỗi thì cắt thành mảng, nếu đã là mảng thì giữ nguyên
+        let skillsArray = [];
+        if (typeof p.skills === 'string') {
+            skillsArray = p.skills.split(',').map(s => s.trim());
+        } else if (Array.isArray(p.skills)) {
+            skillsArray = p.skills;
+        }
 
-        <div class="stats">
-            <div class="stat">⭐ ${p.rating}</div>
-            <div class="stat">👥 ${p.students}</div>
-            <div class="stat">📚 ${p.exp}</div>
-        </div>
-
-        <div class="action-box">
-            <a href="schedule.html?id=${id || 1}" class="btn btn-primary">Đặt lịch ngay</a>
-            <a href="covan.html" class="btn btn-outline">Quay lại danh sách</a>
-        </div>
-    </div>
-</div>
-
-<div class="content-grid">
-    <div>
-        <div class="section">
-            <h3>📖 Giới thiệu</h3>
-            <div class="text">${p.desc}</div>
-        </div>
-
-        <div class="section" style="margin-top:20px;">
-            <h3>📘 Môn tư vấn</h3>
-            <div class="text">${p.subjects}</div>
-        </div>
-    </div>
-
-    <div>
-        <div class="section">
-            <h3>💡 Kỹ năng</h3>
-            <div class="skills">
-                ${p.skills.map(s => `<div class="skill">${s}</div>`).join("")}
+        document.getElementById("profile").innerHTML = `
+            <div class="top">
+                <img src="${p.avatar_url}" alt="${p.full_name}">
+                <div>
+                    <div class="name">${p.full_name}</div>
+                    <div class="tag">${p.tag}</div>
+                    <div class="stats">
+                        <div class="stat">⭐ ${p.rating}</div>
+                        <div class="stat">👥 ${p.student_count} SV</div>
+                        <div class="stat">📚 ${p.experience}</div>
+                    </div>
+                    <div class="action-box">
+                        <a href="schedule.html?id=${p.user_id}" class="btn btn-primary">Xem lịch & Đặt chỗ</a>
+                        <a href="covan.html" class="btn btn-outline">Quay lại</a>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
-`;
+            <div class="content-grid">
+                <div class="section">
+                    <h3>📖 Giới thiệu</h3>
+                    <div class="text">${p.description}</div>
+                </div>
+                <div class="section">
+                    <h3>🛠️ Kỹ năng chuyên môn</h3>
+                    <div class="skills-list">
+                        ${skillsArray.length > 0 
+                            ? skillsArray.map(s => `<span class="skill-tag">${s}</span>`).join('') 
+                            : '<span class="text">Chưa cập nhật kỹ năng</span>'}
+                    </div>
+                </div>
+            </div>`;
+    } catch (err) {
+        console.error(err);
+        document.getElementById("profile").innerHTML = "<p>Lỗi kết nối máy chủ!</p>";
+    }
+}
+
+document.addEventListener('DOMContentLoaded', loadProfile);
 </script>
 
 </body>

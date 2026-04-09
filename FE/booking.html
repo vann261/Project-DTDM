@@ -238,14 +238,32 @@ textarea {
 /* SUCCESS MESSAGE */
 .success-box {
     display: none;
-    margin-top: 20px;
-    background: #ecfdf5;
-    border: 1px solid #bbf7d0;
-    color: #166534;
-    border-radius: 16px;
-    padding: 16px 18px;
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    background: white;
+    border: 2px solid #bbf7d0;
+    border-radius: 24px;
+    padding: 40px 48px;
+    text-align: center;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.18);
+    font-size: 16px;
     font-weight: 600;
-    line-height: 1.7;
+    color: #166534;
+    min-width: 320px;
+    animation: popIn 0.3s ease;
+}
+.success-box .success-icon { font-size: 56px; margin-bottom: 16px; display: block; }
+.success-box .success-title { font-size: 20px; font-weight: 800; color: #166534; margin-bottom: 8px; }
+.success-box .success-sub { font-size: 14px; color: #64748b; font-weight: 400; }
+.overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.4); z-index: 998;
+}
+@keyframes popIn {
+    from { opacity:0; transform: translate(-50%,-50%) scale(0.85); }
+    to   { opacity:1; transform: translate(-50%,-50%) scale(1); }
 }
 
 /* ACTIVE NAV */
@@ -303,19 +321,19 @@ textarea {
 <div id="site-header"></div>
 
 <section class="hero">
-    <a href="schedule.html" class="hero-back" id="backToSchedule">← Quay lại lịch trống</a>
+    <a href="schedule.html" class="hero-back" id="backToSchedule"></a>
     <h1>Xác nhận đặt lịch tư vấn</h1>
-    <p>Điền đầy đủ thông tin bắt buộc để gửi yêu cầu đặt lịch tư vấn. Sau khi xác nhận thành công, hệ thống sẽ đưa bạn về trang chủ.</p>
+    <p>Điền đầy đủ thông tin bắt buộc để gửi yêu cầu đặt lịch tư vấn.</p>
 </section>
 
 <div class="page-wrap">
     <div class="box">
-        <div class="title">📌 Thông tin đặt lịch</div>
+        <div class="title">Thông tin đặt lịch</div>
 
         <div class="info">
-            👨‍🏫 Giảng viên: <b id="name"></b><br>
-            📅 Ngày hẹn: <b id="date"></b><br>
-            ⏰ Khung giờ: <b id="time"></b>
+            Giảng viên: <b id="name"></b><br>
+            Ngày hẹn: <b id="date"></b><br>
+            Khung giờ: <b id="time"></b>
         </div>
 
         <form id="bookingForm" novalidate>
@@ -336,6 +354,14 @@ textarea {
                     <label for="phone">Số điện thoại <span class="required">*</span></label>
                     <input type="tel" id="phone" placeholder="Nhập số điện thoại">
                     <div class="error-text" id="errorPhone">Vui lòng nhập số điện thoại hợp lệ.</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="slotSelect">Khung giờ <span class="required">*</span></label>
+                    <select id="slotSelect">
+                        <option value="">Đang tải khung giờ...</option>
+                    </select>
+                    <div class="error-text" id="errorSlot">Vui lòng chọn khung giờ.</div>
                 </div>
 
                 <div class="form-group">
@@ -365,8 +391,11 @@ textarea {
                 <button type="submit" class="btn btn-primary">Xác nhận đặt lịch</button>
             </div>
 
+            <div class="overlay" id="overlay"></div>
             <div class="success-box" id="successBox">
-                ✅ Đặt lịch thành công. Hệ thống đang chuyển bạn về trang chủ...
+                <span class="success-icon"></span>
+                <div class="success-title">Đặt lịch thành công!</div>
+                <div class="success-sub">Đang chuyển bạn đến trang lịch hẹn...</div>
             </div>
         </form>
     </div>
@@ -376,108 +405,134 @@ textarea {
 <script src="components.js"></script>
 
 <script>
-// DATA GIẢNG VIÊN
-const advisors = {
-    1: "TS. Nguyễn Văn An",
-    2: "ThS. Trần Thị Bình",
-    3: "TS. Lê Minh Cường",
-    4: "ThS. Phạm Thu Hà",
-    5: "TS. Hoàng Văn Dũng",
-    6: "ThS. Vũ Thị Lan"
-};
+// 1. LẤY PARAM TỪ URL
+const params     = new URLSearchParams(window.location.search);
+const advisor_id = params.get('advisor_id') || params.get('id') || '';
+const slotId     = params.get('slot_id') || '';
 
-// LẤY PARAM
-const params = new URLSearchParams(window.location.search);
-const id = params.get("id") || "1";
-const time = params.get("time") || "";
-const date = params.get("date") || "";
+// 2. LOAD THÔNG TIN CỐ VẤN
+async function loadAdvisorInfo() {
+    if (!advisor_id) return;
+    try {
+        const res = await fetch(`../BE/get_advisors.php?action=detail&advisor_id=${advisor_id}`);
+        const adv = await res.json();
+        document.getElementById('name').textContent = adv?.full_name ?? 'Không tìm thấy';
+    } catch {
+        document.getElementById('name').textContent = 'Lỗi tải dữ liệu';
+    }
+}
 
-// HIỂN THỊ THÔNG TIN
-document.getElementById("name").innerText = advisors[id] || advisors[1];
-document.getElementById("time").innerText = decodeURIComponent(time) || "Chưa chọn";
-document.getElementById("date").innerText = decodeURIComponent(date) || "Chưa chọn";
+// 3. LOAD KHUNG GIỜ TRỐNG
+async function loadSlots() {
+    if (!advisor_id) return;
+    const select = document.getElementById('slotSelect');
+    try {
+        const res   = await fetch(`../BE/get_slots.php?advisor_id=${advisor_id}`);
+        const slots = await res.json();
 
-// LINK QUAY LẠI ĐÚNG CỐ VẤN
-const scheduleLink = `schedule.html?id=${encodeURIComponent(id)}`;
-document.getElementById("backToSchedule").href = scheduleLink;
-document.getElementById("cancelBtn").href = scheduleLink;
+        if (slots.length === 0) {
+            select.innerHTML = '<option value="">Không có khung giờ trống</option>';
+            return;
+        }
 
-// VALIDATION
-const form = document.getElementById("bookingForm");
-const successBox = document.getElementById("successBox");
+        select.innerHTML = '<option value="">-- Chọn khung giờ --</option>' +
+            slots.map(s => `<option value="${s.slot_id}">${s.label}</option>`).join('');
 
-const fullName = document.getElementById("fullName");
-const email = document.getElementById("email");
-const phone = document.getElementById("phone");
-const subject = document.getElementById("subject");
-const content = document.getElementById("content");
+        // Nếu có slot_id từ URL thì tự chọn
+        if (slotId) select.value = slotId;
+
+        // Cập nhật info khi đổi slot
+        select.addEventListener('change', updateSlotInfo);
+        updateSlotInfo();
+
+    } catch {
+        select.innerHTML = '<option value="">Lỗi tải khung giờ</option>';
+    }
+}
+
+function updateSlotInfo() {
+    const select = document.getElementById('slotSelect');
+    const label  = select.options[select.selectedIndex]?.text ?? '';
+    const parts  = label.split(' · ');
+    document.getElementById('date').textContent = parts[0] ?? 'Chưa chọn';
+    document.getElementById('time').textContent = parts[1] ?? 'Chưa chọn';
+}
+
+// 4. XỬ LÝ FORM GỬI LÊN DB
+const form       = document.getElementById('bookingForm');
+const successBox = document.getElementById('successBox');
 
 function showError(id, show) {
-    document.getElementById(id).style.display = show ? "block" : "none";
+    document.getElementById(id).style.display = show ? 'block' : 'none';
 }
 
-function isValidEmail(value) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-}
-
-function isValidPhone(value) {
-    return /^[0-9+\s]{8,15}$/.test(value.trim());
-}
-
-form.addEventListener("submit", function (e) {
+form.addEventListener('submit', async function(e) {
     e.preventDefault();
 
+    const slot    = document.getElementById('slotSelect').value;
+    const subject = document.getElementById('subject').value;
+    const content = document.getElementById('content').value.trim();
     let valid = true;
 
-    const nameValue = fullName.value.trim();
-    const emailValue = email.value.trim();
-    const phoneValue = phone.value.trim();
-    const subjectValue = subject.value.trim();
-    const contentValue = content.value.trim();
-
-    if (!nameValue) {
-        showError("errorName", true);
-        valid = false;
-    } else {
-        showError("errorName", false);
-    }
-
-    if (!emailValue || !isValidEmail(emailValue)) {
-        showError("errorEmail", true);
-        valid = false;
-    } else {
-        showError("errorEmail", false);
-    }
-
-    if (!phoneValue || !isValidPhone(phoneValue)) {
-        showError("errorPhone", true);
-        valid = false;
-    } else {
-        showError("errorPhone", false);
-    }
-
-    if (!subjectValue) {
-        showError("errorSubject", true);
-        valid = false;
-    } else {
-        showError("errorSubject", false);
-    }
-
-    if (!contentValue) {
-        showError("errorContent", true);
-        valid = false;
-    } else {
-        showError("errorContent", false);
-    }
+    if (!slot)    { showError('errorSlot',    true); valid = false; } else showError('errorSlot',    false);
+    if (!subject) { showError('errorSubject', true); valid = false; } else showError('errorSubject', false);
+    if (!content) { showError('errorContent', true); valid = false; } else showError('errorContent', false);
 
     if (!valid) return;
 
-    successBox.style.display = "block";
-    form.querySelector('button[type="submit"]').disabled = true;
+    const btn = form.querySelector('button[type="submit"]');
+    btn.disabled    = true;
+    btn.textContent = 'Đang gửi...';
 
-    setTimeout(() => {
-        window.location.href = "index.html";
-    }, 1500);
+    const formData = new FormData();
+    formData.append('advisor_id', advisor_id);
+    formData.append('slot_id',    slot);
+    formData.append('topic',      subject + ' – ' + content);
+
+    try {
+        const res  = await fetch('../BE/booking.php', { method: 'POST', body: formData });
+        const data = await res.json();
+
+        if (data.success) {
+            document.getElementById('overlay').style.display = 'block';
+            successBox.style.display = 'block';
+            setTimeout(() => { window.location.href = 'my_schedule.html'; }, 2500);
+        } else {
+            successBox.textContent   = '❌ ' + data.message;
+            successBox.style.color   = '#991b1b';
+            successBox.style.background = '#fef2f2';
+            successBox.style.borderColor = '#fca5a5';
+            successBox.style.display = 'block';
+            btn.disabled    = false;
+            btn.textContent = 'Xác nhận đặt lịch';
+        }
+    } catch {
+        successBox.textContent   = '❌ Không thể kết nối máy chủ.';
+        successBox.style.display = 'block';
+        btn.disabled    = false;
+        btn.textContent = 'Xác nhận đặt lịch';
+    }
+});
+
+// Nút quay lại
+document.getElementById('backToSchedule').href = `covan.html`;
+document.getElementById('cancelBtn').href       = `covan.html`;
+
+document.addEventListener('DOMContentLoaded', async () => {
+    // Kiểm tra đăng nhập trước khi cho vào trang
+    try {
+        const res  = await fetch('../BE/auth/check_session.php');
+        const data = await res.json();
+        if (!data.logged_in) {
+            window.location.href = 'dangnhap.html?redirect=' + encodeURIComponent(window.location.href);
+            return;
+        }
+    } catch {
+        // Không kiểm tra được → cho phép vào, sẽ bị chặn khi submit
+    }
+
+    loadAdvisorInfo();
+    loadSlots();
 });
 </script>
 

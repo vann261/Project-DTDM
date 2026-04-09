@@ -1,0 +1,100 @@
+<!-- ============================================================
+     EDUCONSULT – ADVISOR COMPONENTS
+     Dùng riêng cho trang cố vấn, không ảnh hưởng trang sinh viên
+     Nhúng: <script src="components-advisor.js"></script>
+     ============================================================ -->
+
+<!-- ══ HEADER ADVISOR ══ -->
+<template id="tpl-header-advisor">
+  <header class="adv-header">
+    <div class="adv-header__inner">
+
+      <!-- Logo -->
+      <a href="advisor_dashboard.html" class="adv-header__logo">
+        <div class="adv-header__logo-icon">🎓</div>
+        <div class="adv-header__logo-text">
+          EduConsult
+          <span>Cổng cố vấn</span>
+        </div>
+      </a>
+
+      <!-- Nav -->
+      <nav class="adv-header__nav" id="mainNav">
+        <a href="advisor_dashboard.html" data-page="advisor_dashboard">
+          Dashboard
+        </a>
+        <a href="about.html" data-page="about">
+          Về chúng tôi
+        </a>
+      </nav>
+
+      <!-- Right side -->
+      <div class="adv-header__right">
+
+        <!-- Badge cố vấn -->
+        <div class="adv-role-badge">
+          <span class="adv-role-dot"></span>
+          Đang hoạt động
+        </div>
+
+        <!-- User menu -->
+        <div class="adv-user-wrap" id="header-user-info" style="display:none; position:relative;">
+          <button class="adv-user-btn" id="userMenuTrigger" type="button">
+            <div class="adv-user-avatar" id="header-user-avatar">?</div>
+            <div class="adv-user-info">
+              <span class="adv-user-name" id="header-user-name">--</span>
+              <span class="adv-user-role" id="header-user-role">Cố vấn</span>
+            </div>
+            <svg class="adv-chevron" id="userMenuChevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+
+          <!-- Dropdown -->
+          <div class="adv-dropdown" id="userDropdown">
+            <div class="adv-dropdown__header">
+              <div class="adv-dropdown__avatar" id="dropdown-avatar">?</div>
+              <div>
+                <div class="adv-dropdown__name" id="dropdown-user-name">--</div>
+                <div class="adv-dropdown__role">Cố vấn học tập</div>
+              </div>
+            </div>
+            <div class="adv-dropdown__body">
+              <a href="advisor_dashboard.html" class="adv-dropdown__item">
+                <span></span> Dashboard
+              </a>
+              <a href="#" class="adv-dropdown__item">
+                <span></span> Hồ sơ cá nhân
+              </a>
+            </div>
+            <div class="adv-dropdown__footer">
+              <a href="../BE/auth/dangxuat.php" class="adv-dropdown__logout">
+                <span></span> Đăng xuất
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hamburger -->
+        <button class="adv-hamburger" id="hamburgerBtn" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+</template>
+
+<!-- ══ FOOTER ADVISOR ══ -->
+<template id="tpl-footer-advisor">
+  <footer class="adv-footer">
+    <div class="adv-footer__inner">
+      <div class="adv-footer__brand">
+        <span class="adv-footer__icon">🎓</span>
+        <span class="adv-footer__name">EduConsult</span>
+        <span class="adv-footer__sep">·</span>
+        <span class="adv-footer__sub">Cổng quản lý cố vấn</span>
+      </div>
+      <div class="adv-footer__copy">© 2025 EduConsult. Nền tảng Microsoft Azure.</div>
+    </div>
+  </footer>
+</template>
